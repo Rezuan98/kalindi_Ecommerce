@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\indexController;
+use App\Http\Controllers\Frontend\ProductViewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +16,8 @@ use App\Http\Controllers\indexController;
 |
 */
 Route::get('/',[IndexController::class,'index'])->name('home');
+
+Route::get('/product/details',[ProductViewController::class,'productDetails'])->name('product.details');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

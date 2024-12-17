@@ -54,3 +54,14 @@ document.querySelectorAll('.product-box').forEach(box => {
         );
     });
 });
+
+
+// Function to open the side menu for quick view
+function openMenu() {
+    document.getElementById('quickview-menu').classList.add('active');
+}
+
+// Function to close the side menu
+function closeMenu() {
+    document.getElementById('quickview-menu').classList.remove('active');
+}

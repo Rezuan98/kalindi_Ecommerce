@@ -96,7 +96,7 @@
     position: absolute;
     top: 65px;
     right: 20px;
-    background: #fff;
+    /* background: #fff; */
     border: none;
     width: 35px;
     height: 35px;
@@ -112,6 +112,7 @@
     transition: all 0.3s ease;
 }
 
+
 .product-box:hover .quickview-btn {
     opacity: 1;
     transform: translateX(0);
@@ -124,7 +125,7 @@
     right: 15px;
     width: 25px;
     height: 25px;
-    background: rgba(255, 255, 255, 0.9);
+    /* background: rgba(255, 255, 255, 0.9); */
     border: none;
     border-radius: 50%;
     display: flex;
@@ -139,7 +140,13 @@
 .product-box:hover .plus-btn {
     opacity: 1;
 }
-
+@media (max-width: 768px) {
+    .quickview-btn, 
+    .plus-btn {
+        opacity: 1 !important; /* Force visibility on small screens */
+        transform: translateX(0); /* Reset position */
+    }
+}
 /* Update image dots styles */
 .image-dots {
     display: flex;
@@ -268,6 +275,66 @@ p {
 /* end style for amenities part */
 
 
+
+/* General Side Menu Styles */
+.side-menu {
+    position: fixed;
+    top: 0;
+    right: -80%; /* Initially hidden outside of view */
+    width: 80%;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    overflow-y: auto;
+    transition: right 0.5s ease; /* Smooth sliding effect */
+    padding: 20px;
+}
+
+/* Close Button */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #333;
+}
+
+/* Button Styles */
+.quickview-btn, .plus-btn {
+    position: absolute;
+    z-index: 999;
+    cursor: pointer;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.quickview-btn {
+    top: 65px;
+    right: 20px;
+    width: 35px;
+    height: 35px;
+}
+
+.plus-btn {
+    bottom: 15px;
+    right: 15px;
+    width: 35px;
+    height: 35px;
+}
+
+/* Side Menu Active State */
+.side-menu.active {
+    right: 0; /* Slide into view */
+}
 
 
 

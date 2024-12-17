@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>@yield('keyTitle')</title>
 <link rel="stylesheet" href="{{ asset('frontend/css/layout.css') }}">
 <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}">
 <link rel="stylesheet" href="{{ asset('frontend/css/navbar.css') }}">
+<link rel="stylesheet" href="{{ asset('frontend/css/product_details.css') }}">
 <link rel="stylesheet" href="{{ asset('frontend/css/mobile-nav.css') }}">
     {{-- bootstrap css start --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -61,6 +62,7 @@
    {{-- cdn for slick slider end--}}
 <script src="{{ asset('frontend/js/best_selling_products.js') }}"></script>
 <script src="{{ asset('frontend/js/navbar.js') }}"></script>
+<script src="{{ asset('frontend/js/product_details.js') }}"></script>
    <script>
     $(document).ready(function(){
         

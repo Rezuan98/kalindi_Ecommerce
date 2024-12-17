@@ -1,0 +1,133 @@
+/* Product Images */
+.product-images .main-image {
+    border: 1px solid #eee;
+    padding: 10px;
+}
+
+.thumbnails img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    cursor: pointer;
+    border: 1px solid #eee;
+}
+
+/* Color Options */
+.color-option {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 1px solid #ddd;
+}
+
+.color-option.active {
+    border: 2px solid #000;
+}
+
+/* Size Buttons */
+.size-btn {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #ddd;
+    background: none;
+    cursor: pointer;
+}
+
+.size-btn.active {
+    background: #000;
+    color: white;
+}
+
+/* Quantity Selector */
+.qty-btn {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ddd;
+    background: none;
+    cursor: pointer;
+}
+
+.quantity-selector input {
+    border: 1px solid #ddd;
+}
+
+/* Product Title */
+.product-details-title {
+    font-size: 24px;
+    font-weight: 500;
+}
+
+/* Product Details */
+.product-details ul li {
+    margin-bottom: 8px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Breadcrumb Styles */
+.breadcrumb-wrap {
+    background-color: #acc6e0;
+ 
+}
+
+.breadcrumb {
+    font-size: 14px;
+  
+    
+    
+}
+
+.breadcrumb-item a {
+    color: #6c757d;
+    text-decoration: none;
+   
+    
+}
+
+.breadcrumb-item.active {
+    color: #000;
+}
+
+/* Zoom Functionality Styles */
+.zoom-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.zoom-img {
+    transition: transform .5s ease;
+    width: 100%;
+    height: auto;
+}
+
+.zoom-container:hover .zoom-img {
+    transform: scale(1.5);
+}
+
+/* Optional: Add a lens effect */
+.zoom-container::after {
+    content: '';
+    display: none;
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+}
+
+.zoom-container:hover::after {
+    display: block;
+}
