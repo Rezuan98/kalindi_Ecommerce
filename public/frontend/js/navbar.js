@@ -44,3 +44,142 @@ function toggleSearch() {
         navRow.style.visibility = 'visible';
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// // Get elements
+// const cartSidebar = document.getElementById('cart-sidebar');
+// const mobileMenu = document.getElementById('mobile-menu');
+// const userDropdown = document.getElementById('user-dropdown');
+// const userIcon = document.querySelector('.fa-user').parentElement;
+
+// // Toggle Cart
+// function toggleCart() {
+//     cartSidebar.classList.toggle('active');
+//     // document.body.style.overflow = cartSidebar.classList.contains('active') ? 'hidden' : '';
+// }
+
+// // Toggle Mobile Menu
+// function toggleMobileMenu() {
+//     mobileMenu.classList.toggle('active');
+//     document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+// }
+
+// // Setup User Dropdown
+// userIcon.addEventListener('mouseenter', () => {
+//     userDropdown.style.display = 'block';
+// });
+
+// userDropdown.addEventListener('mouseleave', () => {
+//     userDropdown.style.display = 'none';
+// });
+
+// // Initialize
+// document.addEventListener('DOMContentLoaded', () => {
+//     // Clone categories for mobile menu
+//     // const categories = document.querySelector('.category-list').cloneNode(true);
+//     // document.querySelector('.menu-content').appendChild(categories);
+
+//     // Add click listeners
+//     document.querySelector('.fa-shopping-cart').parentElement.addEventListener('click', (e) => {
+//         e.preventDefault();
+//         toggleCart();
+//     });
+
+//     document.querySelector('.fa-bars').parentElement.addEventListener('click', (e) => {
+//         e.preventDefault();
+//         toggleMobileMenu();
+//     });
+// });
+
+
+// // Get wishlist element
+// const wishlistSidebar = document.getElementById('wishlist-sidebar');
+
+// // Toggle Wishlist
+// function toggleWishlist() {
+//     wishlistSidebar.classList.toggle('active');
+//     // document.body.style.overflow = wishlistSidebar.classList.contains('active') ? 'hidden' : '';
+// }
+
+// // Add this inside your DOMContentLoaded event listener
+// document.addEventListener('DOMContentLoaded', () => {
+//     // ... your existing code ...
+
+//     // Add wishlist click listener
+//     document.querySelector('.fa-heart').parentElement.addEventListener('click', (e) => {
+//         e.preventDefault();
+//         toggleWishlist();
+//     });
+// });
+
+// Get elements
+const cartSidebar = document.getElementById('cart-sidebar');
+const wishlistSidebar = document.getElementById('wishlist-sidebar');
+const mobileMenu = document.getElementById('mobile-menu');
+const userDropdown = document.getElementById('user-dropdown');
+const userIcon = document.querySelector('.fa-user').parentElement;
+
+// Toggle Cart
+function toggleCart() {
+    cartSidebar.classList.toggle('active');
+}
+
+// Toggle Wishlist
+function toggleWishlist() {
+    wishlistSidebar.classList.toggle('active');
+}
+
+// Toggle Mobile Menu
+function toggleMobileMenu() {
+    mobileMenu.classList.toggle('active');
+}
+
+// Setup User Dropdown
+userIcon.addEventListener('mouseenter', () => {
+    userDropdown.style.display = 'block';
+});
+
+userDropdown.addEventListener('mouseleave', () => {
+    userDropdown.style.display = 'none';
+});
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+    // // Clone categories for mobile menu
+    // const categories = document.querySelector('.category-list').cloneNode(true);
+    // document.querySelector('.menu-content').appendChild(categories);
+
+    // Add click listeners
+    document.querySelector('.fa-shopping-cart').parentElement.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleCart();
+    });
+
+    document.querySelector('.fa-heart').parentElement.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleWishlist();
+    });
+
+    document.querySelector('.fa-bars').parentElement.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleMobileMenu();
+    });
+});

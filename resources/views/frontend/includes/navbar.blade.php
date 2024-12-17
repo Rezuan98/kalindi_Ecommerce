@@ -14,13 +14,22 @@
                 <!-- Center Logo -->
                 <div id="logo" class="col-4 d-flex justify-content-center">
                     <a href="#" class="navbar-brand">
-                        <img src="{{asset('frontend/images/kalindi_logo.svg')}}" style="height: 90px; width: 100px;" alt="Kalindi Logo">
+                        <img src="{{asset('frontend/images/kalindi_logo.svg')}}"  alt="Kalindi Logo">
                     </a>
                 </div>
  
                 <!-- Right Icons -->
                 <div id="right-icons" class="col-4 d-flex justify-content-end">
                     <a href="#" class="nav-icon"><i class="fas fa-user"></i></a>
+
+                    <div id="user-dropdown" class="user-dropdown">
+                        <ul>
+                            <li><a href="#">My Account</a></li>
+                            <li><a href="#">Orders</a></li>
+                            <li><a href="#">Wishlist</a></li>
+                            <li><a href="#">Logout</a></li>
+                        </ul>
+                    </div>
                     <a href="#" onclick="toggleSearch()" class="nav-icon d-none d-lg-block"><i class="fas fa-search"></i></a>
                     <a href="#" class="nav-icon d-none d-lg-block"><i class="fas fa-heart"></i></a>
                     <a href="#" class="nav-icon cart-icon">
@@ -38,6 +47,59 @@
         <button class="btn btn-light mt-2" onclick="toggleSearch()">Close</button>
     </div>
 </div>
+
+
+<!-- Cart Sidebar -->
+<div id="cart-sidebar" class="cart-sidebar">
+    <div class="cart-header">
+        <h2>Shopping Cart</h2>
+        <button class="close-btn" onclick="toggleCart()">×</button>
+    </div>
+    <div class="cart-items">
+        <p>Your cart is empty</p>
+    </div>
+</div>
+<!-- Wishlist Sidebar -->
+<div id="wishlist-sidebar" class="wishlist-sidebar">
+    <div class="wishlist-header">
+        <h2>My Wishlist</h2>
+        <button class="close-btn" onclick="toggleWishlist()">×</button>
+    </div>
+    <div class="wishlist-items">
+        <p>Your wishlist is empty</p>
+    </div>
+</div>
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="mobile-menu">
+    <div class="menu-header">
+        <h2>Menu</h2>
+        <button class="close-btn" onclick="toggleMobileMenu()">×</button>
+    </div>
+    <div class="menu-content">
+        <!-- Your category list will be cloned here by JS -->
+    </div>
+</div>
+
+<!-- User Dropdown -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- Categories Menu (Always Visible) -->
     <div class="categories-menu">
         <div class="container">
