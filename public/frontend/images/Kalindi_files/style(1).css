@@ -1,0 +1,81 @@
+/*
+Theme Name: Elessi Child Theme
+Theme URI: https://elessi.nasatheme.com/demo/
+Description: This is a child theme for Elessi Theme
+Author: NasaTheme
+Author URI: https://nasatheme.com
+Template: elessi-theme
+Version: 1.0
+*/
+
+
+/*************** ADD YOUR CUSTOM CSS IN THIS AREA ***************/
+
+body {
+    line-height: 1.8;
+}
+#masthead {
+    padding: 10px 0 0 !important;
+}
+.product-info .woocommerce-product-details__short-description {
+    color: #464646;
+}
+.nav-wrapper .root-item {
+    padding: 0 0 10px 0 !important;
+}
+.nav-wrapper .root-item>a {
+    font-weight: 500 !important;
+}
+.nasa-header-sticky.header-type-2 .fixed-already .nasa-elements-wrap, .nasa-header-sticky.header-type-3 .fixed-already .nasa-elements-wrap {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+#masthead {
+    padding: 7px 0;
+}
+i.pe-icon.pe-7s-clock {
+    font-weight: bold;
+    color: #f47528;
+}
+.nav-wrapper .root-item>a {
+    margin-right: 90px !important;
+}
+img.header_logo.logo_sticky {
+    max-height: 17px !important;
+}
+@media only screen and (max-width: 767px) {
+#masthead, .mobile-menu {
+    min-height: auto !important;
+    padding: 10px !important;
+}
+body .nasa-add-to-cart-fixed .nasa-thumb-clone {
+    width: 26px !important;
+}
+}
+
+div.nsl-container-block .nsl-container-buttons a {
+    max-width: none !important;
+}
+.nav-wrapper .root-item>a {
+    padding: 10px 0 !important;
+}
+.nasa-add-to-cart-fixed {
+    height: auto !important; 
+}
+.nasa-bottom-bar-icons .nasa-bot-icons i, .nasa-bottom-bar-icons .mini-cart .cart-icon {
+    font-weight: bold;
+}
+.nasa-bot-icons {
+    font-weight: normal;
+    font-size: 12px;
+}
+.nasa-bottom-bar-icons {
+    padding: 7px 7px 5px 7px;
+}
+div#pwaforwp-add-to-home-click {
+    bottom: 50px;
+}
+
+#header-content .fa {
+    font: normal normal normal 20px/1 FontAwesome !important;
+}
