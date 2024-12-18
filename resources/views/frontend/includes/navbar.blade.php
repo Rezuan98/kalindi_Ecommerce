@@ -13,7 +13,7 @@
 
                 <!-- Center Logo -->
                 <div id="logo" class="col-4 d-flex justify-content-center">
-                    <a href="#" class="navbar-brand">
+                    <a href="{{ route('home') }}" class="navbar-brand">
                         <img src="{{asset('frontend/images/kalindi_logo.svg')}}"  alt="Kalindi Logo">
                     </a>
                 </div>
@@ -52,7 +52,7 @@
 <!-- Cart Sidebar -->
 <div id="cart-sidebar" class="cart-sidebar">
     <div class="cart-header">
-        <h2>Shopping Cart</h2>
+        <h2>My Cart</h2>
         <button class="close-btn" onclick="toggleCart()">×</button>
     </div>
     <div class="cart-items">

@@ -46,34 +46,19 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-document.addEventListener('DOMContentLoaded', function() {
-    const zoomContainer = document.querySelector('.zoom-container');
-    const zoomImage = document.querySelector('.zoom-img');
 
-    zoomContainer.addEventListener('mousemove', function(e) {
-        const rect = zoomContainer.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+
+
+// Initialize quantity buttons
+document.querySelectorAll('.qty-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const input = this.parentElement.querySelector('.qty-input');
+        const currentValue = parseInt(input.value);
         
-        // Calculate position in percentage
-        const xPercent = (x / rect.width) * 100;
-        const yPercent = (y / rect.height) * 100;
-        
-        // Move the image opposite to mouse movement
-        zoomImage.style.transformOrigin = `${xPercent}% ${yPercent}%`;
-    });
-
-    zoomContainer.addEventListener('mouseleave', function() {
-        zoomImage.style.transformOrigin = 'center center';
-    });
-
-    // Update main image and zoom when clicking thumbnails
-    const thumbnails = document.querySelectorAll('.thumbnails img');
-    thumbnails.forEach(thumb => {
-        thumb.addEventListener('click', function() {
-            zoomImage.src = this.src;
-            thumbnails.forEach(t => t.classList.remove('active'));
-            this.classList.add('active');
-        });
+        if (this.classList.contains('minus') && currentValue > 1) {
+            input.value = currentValue - 1;
+        } else if (this.classList.contains('plus')) {
+            input.value = currentValue + 1;
+        }
     });
 });

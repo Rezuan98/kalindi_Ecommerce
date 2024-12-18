@@ -1,35 +1,45 @@
 /* css for banner slider start */
-
+/* Slider Container */
 .slider-container {
-    position: relative;
+    width: 100%;
    
-    
-    height: 250px; /* Adjust height as needed */
-    padding: 0;
-    margin: 0;
+    overflow: hidden; /* Prevent unwanted scrollbars */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.slide {
-    position: absolute;
-    top: 0;
-    left: 0;
-   
-    width: 100vw;
-    transition: opacity 0.5s ease-in-out;
+@media (max-width:768px){
+  .slider-container{
+    height: 100%;
+  }
 }
-.slide img {
-    object-fit:cover;
-   width: 100%;
-    
-}
-@media only screen and (min-width:320px) and (max-width:575px){
 
-.slide img{
-   
+/* Slick Slider */
+.slick-slider {
     width: 100%;
     height: 100%;
 }
 
+.slick-slide {
+    display: flex !important; /* Ensure the slides align properly */
+    justify-content: center;
+    align-items: center;
+    /* height: 100%;  */
 }
+
+.slick-slide img {
+    width: 100%; /* Ensure the image spans the slide width */
+    height: 100%; /* Match the height of the slide */
+    object-fit: cover; /* Maintain aspect ratio while covering the container */
+}
+
+/* Mobile-Specific Adjustments */
+@media only screen and (max-width: 575px) {
+    .slick-slide img {
+        object-fit: cover; /* Prevent cropping on smaller screens */
+    }
+}
+
 
 
 /* css for banner slider end */
@@ -140,6 +150,75 @@
 .product-box:hover .plus-btn {
     opacity: 1;
 }
+
+
+
+
+
+
+
+.plus-btn-wrapper {
+    position: relative;
+}
+
+.plus-btn {
+    position: relative;
+    width: 20px;
+    height: 20px;
+   
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    z-index: 2;
+}
+
+
+.plus-btn .hover-text {
+    position: absolute;
+    
+    color: white;
+    font-size: 14px;
+    opacity: 1;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.plus-btn:hover {
+    width: 70px;
+    background: #F69B09;
+    border-radius: 15px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @media (max-width: 768px) {
     .quickview-btn, 
     .plus-btn {
@@ -280,8 +359,8 @@ p {
 .side-menu {
     position: fixed;
     top: 0;
-    right: -80%; /* Initially hidden outside of view */
-    width: 80%;
+    right: -50%; /* Initially hidden outside of view */
+    width: 50%;
     height: 100%;
     background-color: #fff;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
@@ -289,6 +368,14 @@ p {
     overflow-y: auto;
     transition: right 0.5s ease; /* Smooth sliding effect */
     padding: 20px;
+}
+@media (max-width:768px){
+
+    .side-menu{
+
+        right: -90%; /* Initially hidden outside of view */
+         width: 90%;
+    }
 }
 
 /* Close Button */
@@ -313,7 +400,7 @@ p {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #fff;
+   
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
@@ -430,8 +517,8 @@ p {
 }
 
 .social-link:hover {
-    background: #333;
-    color: #fff;
+    
+    color: orange;
 }
 
 /* Payment Methods */

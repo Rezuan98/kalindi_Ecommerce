@@ -8,6 +8,7 @@
     <title>@yield('keyTitle')</title>
 <link rel="stylesheet" href="{{ asset('frontend/css/layout.css') }}">
 <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}">
+<link rel="stylesheet" href="{{ asset('frontend/css/cart.css') }}">
 <link rel="stylesheet" href="{{ asset('frontend/css/navbar.css') }}">
 <link rel="stylesheet" href="{{ asset('frontend/css/product_details.css') }}">
 <link rel="stylesheet" href="{{ asset('frontend/css/mobile-nav.css') }}">
@@ -24,13 +25,13 @@
     {{-- cdn for slick slider start --}}
    @stack('ecomcss')
 
-   <style>
+   
 
 
 
-/* Keep other styles (mobile menu, side menu) as is */
 
-   </style>
+
+
 </head>
 
 <body>
@@ -45,9 +46,7 @@
 
 
     {{-- bootstrap js cdn start --}}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+5qRpTzFZV2TO5lH5MmCOUZQlt1Bw" crossorigin="anonymous">
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
      {{-- bootstrap js cdn end --}}
    
@@ -60,29 +59,27 @@
    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
    {{-- cdn for slick slider end--}}
+  
 <script src="{{ asset('frontend/js/best_selling_products.js') }}"></script>
 <script src="{{ asset('frontend/js/navbar.js') }}"></script>
+<script src="{{ asset('frontend/js/cart.js') }}"></script>
 <script src="{{ asset('frontend/js/product_details.js') }}"></script>
-   <script>
-    $(document).ready(function(){
-        
-$('.slider').slick({
-    autoplay: true,
-    autoplaySpeed: 3000,
-    dots: false,
-    arrows: false, // You can enable/disable navigation arrows
-    responsive: [
-        {
-            breakpoint: 768,
-            settings: {
-                slidesToShow: 1,
-            }
-        }
-    ]
-});
-});
-
+<script>
+    $(document).ready(function () {
+        $('.slider').slick({
+            dots: false,          // Enable navigation dots
+            infinite: true,      // Infinite scrolling
+            speed: 500,          // Transition speed in milliseconds
+            slidesToShow: 1,     // Show one slide at a time
+            slidesToScroll: 1,   // Scroll one slide at a time
+            autoplay: true,      // Enable autoplay
+            autoplaySpeed: 3000, // Time between slides in autoplay
+            arrows: false,        // Show navigation arrows
+            adaptiveHeight: true // Adjust height automatically
+        });
+    });
 </script>
+@stack('ecomjs')
 </body>
 
 </html>

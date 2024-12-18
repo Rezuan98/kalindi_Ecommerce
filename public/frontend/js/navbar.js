@@ -153,13 +153,32 @@ function toggleMobileMenu() {
 }
 
 // Setup User Dropdown
-userIcon.addEventListener('mouseenter', () => {
-    userDropdown.style.display = 'block';
+// Function to toggle dropdown on click
+function toggleDropdown() {
+    if (userDropdown.style.display === 'block') {
+        userDropdown.style.display = 'none'; // Hide dropdown
+    } else {
+        userDropdown.style.display = 'block'; // Show dropdown
+    }
+}
+
+// Function to hide dropdown when clicking outside
+function hideDropdownOnClickOutside(event) {
+    if (!userIcon.contains(event.target) && !userDropdown.contains(event.target)) {
+        userDropdown.style.display = 'none'; // Hide dropdown
+    }
+}
+
+// Event listener for mobile toggle behavior
+userIcon.addEventListener('click', () => {
+    toggleDropdown();
 });
 
-userDropdown.addEventListener('mouseleave', () => {
-    userDropdown.style.display = 'none';
+// Add event listener to document for outside clicks
+document.addEventListener('click', (event) => {
+    hideDropdownOnClickOutside(event);
 });
+
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {

@@ -4,33 +4,36 @@
 
 @section('contents')
 
-<div  class="breadcrumb-wrap py-3 border-bottom">
-    <div style="margin-left:60px;" class="breadcrumb-container">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="/">Home</a></li>
-                <li class="breadcrumb-item"><a href="/category">Category</a></li>
-                <li class="breadcrumb-item active" aria-current="page">BORNI</li>
-            </ol>
-        </nav>
+
+    <div  class="breadcrumb-wrap py-3 border-bottom">
+        <div class="container">
+        <div  class="breadcrumb-container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/category">Category</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">BORNI</li>
+                </ol>
+            </nav>
+        </div>
     </div>
 </div>
 <div class="container mt-2">
     <!-- Product Section -->
-    <div class="row">
+    <div class="row ">
         <!-- Product Images -->
-        <div class="col-lg-6">
-            <div class="product-images">
+        <div class="col-lg-6 col-md-6 col-sm-6 p-0 m-0">
+            <div  class="product-images">
                 <!-- Main Image -->
 
                 
-                <div class="main-image mb-3">
-                    <div class="zoom-container">
-            <img src="{{ asset('frontend/images/kalindi2.webp') }}" alt="Product Name" class="img-fluid">
+                <div id="product-image-container"  class="main-image mb-3">
+                    
+            <img id="product-image" data-zoom-image="{{ asset('frontend/images/kalindi2.webp') }}"  src="{{ asset('frontend/images/kalindi2.webp') }}" alt="Product Name" class="img-fluid">
         </div>      
-        </div>
+       
                 <!-- Thumbnail Images -->
-                <div class="thumbnails d-flex gap-2">
+                <div class="thumbnails d-flex gap-1 justify-content-center d-lg-block d-none">
                     <img src="{{ asset('frontend/images/kalindi2.webp') }}" alt="Thumbnail 1" class="img-thumbnail cursor-pointer">
                     <img src="{{ asset('frontend/images/kalindi5.webp') }}" alt="Thumbnail 2" class="img-thumbnail cursor-pointer">
                     <img src="{{ asset('frontend/images/kalindi2.webp') }}" alt="Thumbnail 3" class="img-thumbnail cursor-pointer">
@@ -39,9 +42,9 @@
         </div>
 
         <!-- Product Info -->
-        <div class="col-lg-6">
+        <div class="col-lg-6 col-md-6 col-sm-6 ">
             <div class="product-info">
-                <h1 class="product-details-title mb-3">BORNI</h1>
+                <h1 class="product-details-title mb-3 text-align-center">BORNI</h1>
                 <div class="product-price mb-4">
                     <span class="current-price h3">৳3,690.00</span>
                 </div>
