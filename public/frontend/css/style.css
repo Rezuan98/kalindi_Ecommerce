@@ -135,7 +135,7 @@
     right: 15px;
     width: 25px;
     height: 25px;
-    /* background: rgba(255, 255, 255, 0.9); */
+    
     border: none;
     border-radius: 50%;
     display: flex;
@@ -235,8 +235,8 @@
 }
 
 .dot {
-    width: 8px;
-    height: 8px;
+    width: 15px;
+    height: 15px;
     background: rgba(0, 0, 0, 0.2);
     border-radius: 50%;
     cursor: pointer;
@@ -288,14 +288,14 @@
 /* Update z-index for all interactive elements */
 .product-badge,
 .wishlist-btn,
-.quickview-btn,
+
 .plus-btn {
     z-index: 2;
 }
 
 /* Add missing icon styles */
 .wishlist-btn i,
-.quickview-btn i,
+/* .quickview-btn i, */
 .plus-btn i {
     font-size: 16px;
     color: #333;
@@ -391,7 +391,7 @@ p {
 }
 
 /* Button Styles */
-.quickview-btn, .plus-btn {
+ .plus-btn {
     position: absolute;
     z-index: 999;
     cursor: pointer;
@@ -404,12 +404,6 @@ p {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.quickview-btn {
-    top: 65px;
-    right: 20px;
-    width: 35px;
-    height: 35px;
-}
 
 .plus-btn {
     bottom: 15px;
@@ -419,9 +413,9 @@ p {
 }
 
 /* Side Menu Active State */
-.side-menu.active {
-    right: 0; /* Slide into view */
-}
+/* .side-menu.active {
+    right: 0; /* Slide into view 
+} */
 
 
 

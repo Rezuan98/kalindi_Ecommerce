@@ -32,7 +32,7 @@
                     </div>
                     <a href="#" onclick="toggleSearch()" class="nav-icon d-none d-lg-block"><i class="fas fa-search"></i></a>
                     <a href="#" class="nav-icon d-none d-lg-block"><i class="fas fa-heart"></i></a>
-                    <a href="#" class="nav-icon cart-icon">
+                    <a href="#" data-bs-toggle="offcanvas" data-bs-target="#cartMenu" aria-controls="cartMenu" class="nav-icon cart-icon">
                         <i class="fas fa-shopping-cart"></i>
                         <span class="cart-count">0</span>
                     </a>
@@ -50,15 +50,7 @@
 
 
 <!-- Cart Sidebar -->
-<div id="cart-sidebar" class="cart-sidebar">
-    <div class="cart-header">
-        <h2>My Cart</h2>
-        <button class="close-btn" onclick="toggleCart()">×</button>
-    </div>
-    <div class="cart-items">
-        <p>Your cart is empty</p>
-    </div>
-</div>
+
 <!-- Wishlist Sidebar -->
 <div id="wishlist-sidebar" class="wishlist-sidebar">
     <div class="wishlist-header">
@@ -104,7 +96,7 @@
     <div class="categories-menu">
         <div class="container">
             <ul class="category-list">
-                <li><a href="#">NEW IN</a></li>
+                <li><a href="{{ route('category.products') }}">NEW IN</a></li>
                 <li><a href="#">BEST SELLERS</a></li>
                 <li><a href="#">BRANDS</a></li>
                 <li><a href="#">CLOTHING</a></li>

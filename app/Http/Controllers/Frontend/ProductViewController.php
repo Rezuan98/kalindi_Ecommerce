@@ -11,4 +11,9 @@ class ProductViewController extends Controller
 
         return view('frontend.pages.product_details');
     }
+
+    public function categoryProducts(){
+
+        return view('frontend.pages.category_product_page');
+    }
 }

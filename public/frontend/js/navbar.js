@@ -138,9 +138,7 @@ const userDropdown = document.getElementById('user-dropdown');
 const userIcon = document.querySelector('.fa-user').parentElement;
 
 // Toggle Cart
-function toggleCart() {
-    cartSidebar.classList.toggle('active');
-}
+
 
 // Toggle Wishlist
 function toggleWishlist() {

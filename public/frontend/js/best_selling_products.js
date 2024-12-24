@@ -31,11 +31,11 @@ document.querySelectorAll('.quickview-btn').forEach(btn => {
     });
 });
 
-document.querySelectorAll('.plus-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        // Add your plus button functionality here
-    });
-});
+// document.querySelectorAll('.plus-btn').forEach(btn => {
+//     btn.addEventListener('click', () => {
+//         // Add your plus button functionality here
+//     });
+// });
 
 
 // Add touch event handling for mobile

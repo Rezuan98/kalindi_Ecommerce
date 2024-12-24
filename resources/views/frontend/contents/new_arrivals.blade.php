@@ -31,20 +31,23 @@
                                 </button>
                             </div>
                         
-                            <div class="product-info">
-                                <p class="product-title">Cotton Printed Kameez</p>
+                            <div class="product-info d-flex justify-content-around">
+                                
                                 <div class="product-price">
+                                    <p class="product-title">Cotton Printed Kameez</p>
                                     <span class="current-price">৳1,590</span>
                                     <span class="original-price">৳1,990</span>
+                                </div>
+
+                                <div class="image-dots">
+                                    <span class="dot active" data-image="{{ asset('frontend/images/slide2.webp') }}"></span>
+                                    <span class="dot" data-image="{{ asset('frontend/images/kalindi.webp') }}"></span>
+                                    <span class="dot" data-image="{{ asset('frontend/images/kalindi2.webp') }}"></span>
                                 </div>
                             </div>
                         
                             <!-- Image Dots -->
-                            <div class="image-dots">
-                                <span class="dot active" data-image="{{ asset('frontend/images/slide2.webp') }}"></span>
-                                <span class="dot" data-image="{{ asset('frontend/images/kalindi.webp') }}"></span>
-                                <span class="dot" data-image="{{ asset('frontend/images/kalindi2.webp') }}"></span>
-                            </div>
+                            
                         </div>
                     </div>
 
@@ -71,20 +74,22 @@
                                 </button>
                             </div>
                         
-                            <div class="product-info">
-                                <p class="product-title">Cotton Printed Kameez</p>
+                            <div class="product-info d-flex justify-content-around">
+                               
                                 <div class="product-price">
+                                    <p class="product-title">Cotton Printed Kameez</p>
                                     <span class="current-price">৳1,590</span>
                                     <span class="original-price">৳1,990</span>
+                                </div>
+                                <div class="image-dots">
+                                    <span class="dot active" data-image="{{ asset('frontend/images/slide2.webp') }}"></span>
+                                    <span class="dot" data-image="{{ asset('frontend/images/kalindi.webp') }}"></span>
+                                    <span class="dot" data-image="{{ asset('frontend/images/kalindi2.webp') }}"></span>
                                 </div>
                             </div>
                         
                             <!-- Image Dots -->
-                            <div class="image-dots">
-                                <span class="dot active" data-image="{{ asset('frontend/images/slide2.webp') }}"></span>
-                                <span class="dot" data-image="{{ asset('frontend/images/kalindi.webp') }}"></span>
-                                <span class="dot" data-image="{{ asset('frontend/images/kalindi2.webp') }}"></span>
-                            </div>
+                            
                         </div>
                     </div>
 
@@ -111,20 +116,22 @@
                                 </button>
                             </div>
                         
-                            <div class="product-info">
-                                <p class="product-title">Cotton Printed Kameez</p>
+                            <div class="product-info d-flex justify-content-around">
+                               
                                 <div class="product-price">
+                                    <p class="product-title">Cotton Printed Kameez</p>
                                     <span class="current-price">৳1,590</span>
                                     <span class="original-price">৳1,990</span>
+                                </div>
+                                <div class="image-dots">
+                                    <span class="dot active" data-image="{{ asset('frontend/images/slide2.webp') }}"></span>
+                                    <span class="dot" data-image="{{ asset('frontend/images/kalindi.webp') }}"></span>
+                                    <span class="dot" data-image="{{ asset('frontend/images/kalindi2.webp') }}"></span>
                                 </div>
                             </div>
                         
                             <!-- Image Dots -->
-                            <div class="image-dots">
-                                <span class="dot active" data-image="{{ asset('frontend/images/slide2.webp') }}"></span>
-                                <span class="dot" data-image="{{ asset('frontend/images/kalindi.webp') }}"></span>
-                                <span class="dot" data-image="{{ asset('frontend/images/kalindi2.webp') }}"></span>
-                            </div>
+                           
                         </div>
                     </div>
 
@@ -152,19 +159,21 @@
                             </div>
                         
                             <div class="product-info">
-                                <p class="product-title">Cotton Printed Kameez</p>
-                                <div class="product-price">
+                               
+                                <div class="product-price d-flex justify-content-around">
+                                    <p class="product-title">Cotton Printed Kameez</p>
                                     <span class="current-price">৳1,590</span>
                                     <span class="original-price">৳1,990</span>
+                                </div>
+                                <div class="image-dots">
+                                    <span class="dot active" data-image="{{ asset('frontend/images/slide2.webp') }}"></span>
+                                    <span class="dot" data-image="{{ asset('frontend/images/kalindi.webp') }}"></span>
+                                    <span class="dot" data-image="{{ asset('frontend/images/kalindi2.webp') }}"></span>
                                 </div>
                             </div>
                         
                             <!-- Image Dots -->
-                            <div class="image-dots">
-                                <span class="dot active" data-image="{{ asset('frontend/images/slide2.webp') }}"></span>
-                                <span class="dot" data-image="{{ asset('frontend/images/kalindi.webp') }}"></span>
-                                <span class="dot" data-image="{{ asset('frontend/images/kalindi2.webp') }}"></span>
-                            </div>
+                           
                         </div>
                     </div>
 
