@@ -5,11 +5,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\indexController;
 use App\Http\Controllers\Frontend\ProductViewController;
 use App\Http\Controllers\Frontend\CartController;
-use App\Http\Controllers\Backend\ProductController;
-use App\Http\Controllers\Backend\HomeController;
-use Intervention\Image\ImageManager;
 
-use Intervention\Image\Facades\Image;
+use App\Http\Controllers\Backend\HomeController;
+
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -131,27 +131,22 @@ Route::group(['prefix'=>"unit",'as'=>'unit.'],function(){
 
 // Units routes ends here
 
+
+
+/* product */
+Route::group(['prefix'=>"product",'as'=>'product.'],function(){
+    Route::get('/list','ProductController@index')->name('index');
+    Route::get('/create','ProductController@create')->name('create');
+    Route::get('/get-subcategories/{categoryId}','ProductController@getSubcategories')->name('get.subcategories');
+
+    Route::post('/store','ProductController@store')->name('store');
+    Route::get('/edit/{id}','ProductController@edit')->name('edit');
+    Route::post('/update','ProductController@update')->name('update');
+    Route::get('/delete/{id}','ProductController@delete')->name('delete');
 });
+/* product */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+});
 
 
 
@@ -163,17 +158,6 @@ Route::group(['prefix'=>"profile",'as'=>'profile.','namespace'=>"App\Http\Contro
 });
 
 
-
-/* product */
-// Route::group(['prefix'=>"product",'as'=>'product.','namespace'=>"App\Http\Controllers"],function(){
-//     Route::get('/list','ProductController@index')->name('index');
-//     Route::get('/create','ProductController@create')->name('create');
-//     Route::post('/store','ProductController@store')->name('store');
-//     Route::get('/edit/{id}','ProductController@edit')->name('edit');
-//     Route::post('/update','ProductController@update')->name('update');
-//     Route::get('/delete/{id}','ProductController@delete')->name('delete');
-// });
-/* product */
 
 
 
@@ -202,8 +186,8 @@ Route::group(['prefix'=>"get",'as'=>'get.','namespace'=>"App\Http\Controllers"],
 
 
 
-Route::get('/test-image', function () {
-    $manager = new ImageManager();
-    $image = $manager->make(public_path('exampl.jpg'))->resize(300, 200);
-    return $image->response('jpg');
-});
+// Route::get('/test-image', function () {
+//     $manager = new ImageManager();
+//     $image = $manager->make(public_path('exampl.jpg'))->resize(300, 200);
+//     return $image->response('jpg');
+// });

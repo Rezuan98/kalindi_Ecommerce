@@ -108,9 +108,7 @@ Category
                   <tr>
                     <td>{{ $item->id }}</td>
                     <td>
-                   <img src="{{ asset('storage/'.$item->icon??'NO Image') }}" width="60" height="60" alt="">
-
-
+                      <img src="{{ asset('storage/'.$item->icon) }}" width="60" height="60" alt="Category Icon">
                     </td>
                     <td>{{ $item->name?? 'NO Name' }}</td>
                     <td>

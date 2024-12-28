@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Backend;
+// use Intervention\Image\Facades\Image;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -27,17 +28,47 @@ class CategoryController extends Controller
             $icon = $request->file('icon');
             $filename = time() . '.' . $icon->getClientOriginalExtension();
             
-            // Store the original image
-            $path = 'category-thumbnail/' . $filename;
-            $icon->storeAs('public/category-thumbnail', $filename);
+          
+            $path = $icon->storeAs('category-thumbnail', $filename, 'public');
             
-            $info->icon = $path;
+            $info->icon = $path; 
         }
         
         $info->name = $request->name;
         $info->slug = Str::slug($request->name);
         
         $info->save();
+
+
+        // $info = new Category();
+
+        // if ($request->hasFile('icon')) {
+        //     $icon = $request->file('icon');
+        //     $filename = time() . '.' . $icon->getClientOriginalExtension();
+            
+            
+        //     $img = Image::make($icon->getRealPath());
+            
+            
+        //     $img->resize(300, 300, function ($constraint) {
+        //         $constraint->aspectRatio();
+        //         $constraint->upsize();
+        //     });
+            
+           
+        //     $path = 'category-thumbnail/' . $filename;
+        //     $img->save(storage_path('app/public/' . $path));
+            
+        //     $info->icon = $path;
+        // }
+        
+        // $info->name = $request->name;
+        // $info->slug = Str::slug($request->name);
+        
+        // $info->save();
+
+
+
         return redirect()->back()->with('success', 'Category created successfully!');
     }
     public function index(){

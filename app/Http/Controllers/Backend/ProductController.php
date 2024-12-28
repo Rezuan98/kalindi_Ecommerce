@@ -1,9 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backend;
+
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Category;
+use App\Models\Subcategory;
+use App\Models\Color;
+use App\Models\Size;
+use App\Models\Brand;
+use App\Models\Unit;
+
 use Carbon\Carbon;
 use Brian2694\Toastr\Facades\Toastr;
 
@@ -15,7 +24,15 @@ class ProductController extends Controller
     }
 
     public function create(){
-    	return view('back-end.product.create');
+
+    $categories = Category::all();
+    $subcategory = Subcategory::all();
+    $color = Color::all();
+    $size = Size::all();
+    $brand = Brand::all();
+    $unit = Unit::all();
+
+    	return view('back-end.product.create',compact('categories','subcategory','color','size','brand','unit'));
     }
 
   public function store(Request $request) {
@@ -106,5 +123,16 @@ class ProductController extends Controller
     	return redirect()->route('product.index');
     }
 
+
+
+
+
+    public function getSubcategories($categoryId)
+{
+
+ 
+    $subcategories = Subcategory::where('category_id', $categoryId)->get();
+    return response()->json($subcategories);
+}
 
 }

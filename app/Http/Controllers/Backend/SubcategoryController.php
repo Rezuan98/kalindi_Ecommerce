@@ -29,13 +29,13 @@ class SubcategoryController extends Controller
         if ($request->hasFile('icon')) {
             $icon = $request->file('icon');
             $filename = time() . '.' . $icon->getClientOriginalExtension();
+        
+           
+            $path = $icon->storeAs('subcategory-thumbnail', $filename, 'public');
             
-            // Store the original image
-            $path = 'subcategory-thumbnail/' . $filename;
-            $icon->storeAs('public/subcategory-thumbnail', $filename);
-            
-            $info->icon = $path;
+            $info->icon = $path; // Save the path in the database
         }
+        
         $info->category_id = $request->category_id;
         $info->name = $request->name;
         $info->slug = Str::slug($request->name);

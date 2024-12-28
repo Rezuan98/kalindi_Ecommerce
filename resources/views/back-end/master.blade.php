@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>@yield('admin-title')</title>
 
@@ -24,9 +25,7 @@
   <!-- Daterange picker -->
   <link rel="stylesheet" href="{{ asset('/') }}back-end/plugins/daterangepicker/daterangepicker.css">
 
-  <!-- Select2 -->
-  <link rel="stylesheet" href="{{ asset('/') }}back-end/plugins/select2/css/select2.min.css">
-  <link rel="stylesheet" href="{{ asset('/') }}back-end/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+  
 
   <!-- summernote -->
   <link rel="stylesheet" href="{{ asset('/') }}back-end/plugins/summernote/summernote-bs4.min.css">
@@ -35,6 +34,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     {{-- <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css"> --}}
 
+<!-- Select2 -->
+<link rel="stylesheet" href="{{ asset('/') }}back-end/plugins/select2/css/select2.min.css">
+<link rel="stylesheet" href="{{ asset('/') }}back-end/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 </head>
 @stack('admin-styles')
 <style>
@@ -342,28 +344,7 @@ h4.card-title{
     </ul>
   </li>
 
-  {{-- for color and size --}}
-{{-- 
-  <li class="nav-item {{ Request::is('color*') ? 'menu-open' : '' }}">
-    <a href="#" class="nav-link {{ Request::is('color*') ? 'active' : '' }}">
-      <i class="nav-icon fas fa-cubes"></i>
-      <p>Color & Size <i class="fas fa-angle-left right"></i></p>
-    </a>
-    <ul class="nav nav-treeview">
-      <li class="nav-item">
-        <a href="{{ route('color.index') }}" class="nav-link {{ Request::is('color/manage') ? 'active' : '' }}">
-          <i class="far fa-circle nav-icon"></i>
-          <p>Color</p>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a href="{{ route('size.index') }}" class="nav-link {{ Request::is('size/manage') ? '' : '' }}">
-          <i class="far fa-circle nav-icon"></i>
-          <p>Size</p>
-        </a>
-      </li>
-    </ul>
-  </li> --}}
+
 
 
   <!-- product variant -->
@@ -403,9 +384,9 @@ h4.card-title{
 
     </ul>
   </li>
-  <!-- product variant -->
+  <!-- end product variant -->
 
-  {{-- <!-- product -->
+  <!-- product -->
   <li class="nav-item {{ Request::is('product*') ? 'menu-open' : '' }}">
     <a href="#" class="nav-link {{ Request::is('product*') ? 'active' : '' }}">
       <i class="nav-icon fas fa-cubes"></i>
@@ -426,7 +407,7 @@ h4.card-title{
       </li>
     </ul>
   </li>
-  <!-- product --> --}}
+  <!-- product -->
 
   <!-- orders -->
   {{-- <li class="nav-item {{ Request::is('product*') ? 'menu-open' : '' }}">
@@ -563,7 +544,7 @@ h4.card-title{
 </div>
 <!-- ./wrapper -->
 
-<!-- jQuery -->
+ <!-- jQuery -->
 <script src="{{ asset('/') }}back-end/plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="{{ asset('/') }}back-end/plugins/jquery-ui/jquery-ui.min.js"></script>
@@ -573,7 +554,7 @@ h4.card-title{
 <!-- Bootstrap 4 -->
 <script src="{{ asset('/') }}back-end/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- Select2 -->
-<script src="{{ asset('/') }}back-end/plugins/select2/js/select2.full.min.js"></script>
+{{-- <script src="{{ asset('/') }}back-end/plugins/select2/js/select2.full.min.js"></script> --}}
 <!-- ChartJS -->
 <script src="{{ asset('/') }}back-end/plugins/chart.js/Chart.min.js"></script>
 <!-- Sparkline -->
@@ -589,27 +570,31 @@ h4.card-title{
 <!-- Tempusdominus Bootstrap 4 -->
 <script src="{{ asset('/') }}back-end/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
 <!-- Summernote -->
+
+<!-- jQuery (if not already included) -->
+
+
 <script src="{{ asset('/') }}back-end/plugins/summernote/summernote-bs4.min.js"></script>
 <script src="{{ asset('/') }}back-end/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <script src="{{ asset('/') }}back-end/dist/js/adminlte.js"></script>
 <script src="{{ asset('/') }}back-end/dist/js/pages/dashboard.js"></script>
 <script src="{{ asset('/') }}back-end/dist/js/phone-mask.min.js"></script>
  <script src="{{ asset('/') }}back-end/assets/extra-libs/DataTables/datatables.min.js"></script>
- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+
+
+
+
+
+
+
+
+
  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
   {!! Toastr::message() !!}
-    <script>
-      $("#zero_config").DataTable();
+   
 
-       $('.select2').select2();
-
-    //Initialize Select2 Elements
-    $('.select2bs4').select2({
-      theme: 'bootstrap4'
-    })
-
-    </script>
+   
        <script>
     document.addEventListener("DOMContentLoaded", function(){
         let date = new Date();
@@ -662,5 +647,25 @@ h4.card-title{
 </script>
 
 @stack('admin-scripts')
+
+
+
+
+
+<script>
+  $(document).ready(function() {
+      $('.select2').select2({
+          width: '100%',
+          theme: "default",
+          containerCssClass: "form-control p-0",
+          selectionCssClass: "form-control p-0"
+      }).on('select2:open', function() {
+          document.querySelector('.select2-search__field').focus();
+      });
+  });
+  </script>
+{{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </body>
 </html>

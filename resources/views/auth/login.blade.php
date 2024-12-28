@@ -20,7 +20,7 @@
      @if(isset($setting))
      <img src="{{ asset('/') }}back-end/setting/{{ $setting->logo }}" alt="" class="brand-image" style="opacity: .8;width:100%;height: 100px;">
      @else
-    <a href=""><b>Hasan Scrap Trading</b></a>
+    <a href=""><b>Jute Leather</b></a>
     @endif
   </div>
   <!-- /.login-logo -->
