@@ -62,17 +62,6 @@ Product
     outline: 0;
     box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
 }
-/* for galary image
-.card-img-top {
-    border-bottom: 1px solid #dee2e6;
-}
-.remove-image {
-    width: 100%;
-}
-#gallery-preview .card:hover {
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    transition: box-shadow 0.3s ease;
-} */
 
 /* start style for multiimage form */
 .remove-btn {
@@ -136,9 +125,8 @@ Product
          </div>
 
           <form class="form-horizontal" action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data">
-          @csrf
-          <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
+         @csrf
+         
             <div class="card mb-3">
               <div class="card-header">
                   <h5 class="card-title mb-0">Basic Product Information</h5>
@@ -165,7 +153,7 @@ Product
                                 <div class="mb-3 row">
                                     <label class="col-sm-4 col-form-label">Category</label>
                                     <div class="col-sm-8">
-                                        <select name="category_id" id="category" class="form-select">
+                                        <select name="category_id" id="category" class="form-select form-control">
                                             <option value="">Select Category</option>
                                             @foreach($categories as $category)
                                             <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -177,7 +165,7 @@ Product
                                 <div class="mb-3 row">
                                     <label class="col-sm-4 col-form-label">Subcategory</label>
                                     <div class="col-sm-8">
-                                        <select name="subcategory_id" id="subcategory" class="form-select">
+                                        <select name="subcategory_id" id="subcategory" class="form-select form-control">
                                             <option value="">Select Subcategory</option>
                                         </select>
                                     </div>
@@ -187,6 +175,25 @@ Product
                                     <label class="col-sm-4 col-form-label">Description</label>
                                     <div class="col-sm-8">
                                         <textarea name="description" class="form-control" rows="3" placeholder="Enter product description"></textarea>
+                                    </div>
+                                </div>
+                                {{-- <div class="mb-3 row">
+                                    <label class="col-sm-4 col-form-label">Price</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" name="tags" class="form-control" id="price" placeholder="Price..." />
+                                        @error('tags')
+                                        <span class="text-danger small">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div> --}}
+
+                                <div class="mb-3 row">
+                                    <label class="col-sm-4 col-form-label">Tags(Optional)</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" name="tags" class="form-control" placeholder="Tags..." />
+                                        @error('tags')
+                                        <span class="text-danger small">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
@@ -203,7 +210,7 @@ Product
                                 <div class="mb-3 row">
                                     <label class="col-sm-4 col-form-label">Brand</label>
                                     <div class="col-sm-8">
-                                        <select name="brand_id" class="form-select">
+                                        <select name="brand_id" class="form-select form-control">
                                             <option value="">Select Brand</option>
                                             @foreach($brand as $item)
                                             <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -215,7 +222,7 @@ Product
                                 <div class="mb-3 row">
                                     <label class="col-sm-4 col-form-label">Unit</label>
                                     <div class="col-sm-8">
-                                        <select name="unit_id" class="form-select">
+                                        <select name="unit_id" class="form-select form-control">
                                             <option value="">Select Unit</option>
                                             @foreach($unit as $item)
                                             <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -230,6 +237,90 @@ Product
                                         <input type="file" name="product_image" class="form-control" accept="image/*" />
                                     </div>
                                 </div>
+                                <div class="mb-3 row">
+                                    <label class="col-sm-4 col-form-label">Price</label>
+                                    <div class="col-sm-8">
+                                        <input type="number" name="price" id="price" class="form-control" placeholder="Price..." />
+                                        @error('price')
+                                        <span class="text-danger small">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label class="col-sm-4 col-form-label">Discount Type</label>
+                                    <div class="col-sm-8">
+                                        <select name="discount_type" id="discountType" class="form-control" onchange="toggleDiscountAmount()">
+                                            <option value="">Select Discount Type</option>
+                                            <option value="flat">Flat Amount</option>
+                                            <option value="percentage">Percentage</option>
+                                        </select>
+                                        @error('discount_type')
+                                        <span class="text-danger small">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3 row">
+                                    <label class="col-sm-4 col-form-label">Discount </label>
+                                    <div class="col-sm-8">
+                                        <input type="number" name="discount" id="discountAmount" class="form-control" placeholder="Enter discount..." oninput="calculateDiscount()">
+                                        <small id="discountMessage" class="form-text text-muted"></small>
+                                        @error('discount_amount')
+                                        <span class="text-danger small">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                
+                               
+                                
+                                <script>
+                                    function toggleDiscountAmount() {
+                                        const discountType = document.getElementById('discountType').value;
+                                        const discountAmountInput = document.getElementById('discountAmount');
+                                        const discountMessage = document.getElementById('discountMessage');
+                                        const priceInput = document.getElementById('price').value;
+                                
+                                        if (discountType === 'flat') {
+                                            discountAmountInput.placeholder = "Enter flat discount amount...";
+                                            discountMessage.textContent = "";
+                                        } else if (discountType === 'percentage') {
+                                            discountAmountInput.placeholder = "Enter percentage (0-100)...";
+                                            const discountAmount = discountAmountInput.value;
+                                            if (discountAmount && priceInput) {
+                                                const discountedPrice = (priceInput - (priceInput * discountAmount) / 100).toFixed(2);
+                                                discountMessage.textContent = `Calculated price after discount: ${discountedPrice}`;
+                                            } else {
+                                                discountMessage.textContent = "";
+                                            }
+                                        } else {
+                                            discountAmountInput.placeholder = "Enter discount amount...";
+                                            discountMessage.textContent = "";
+                                        }
+                                    }
+                                
+                                    function calculateDiscount() {
+                                        const discountType = document.getElementById('discountType').value;
+                                        const discountAmount = document.getElementById('discountAmount').value;
+                                        const priceInput = document.getElementById('price').value;
+                                        const discountMessage = document.getElementById('discountMessage');
+                                
+                                        if (discountType === 'percentage' && discountAmount && priceInput) {
+                                            if (discountAmount >= 0 && discountAmount <= 100) {
+                                                const discountedPrice = (priceInput - (priceInput * discountAmount) / 100).toFixed(2);
+                                                discountMessage.textContent = `Calculated price after discount: ${discountedPrice}`;
+                                            } else {
+                                                discountMessage.textContent = "Please enter a percentage between 0 and 100.";
+                                            }
+                                        } else if (discountType === 'flat' && discountAmount && priceInput) {
+                                            const discountedPrice = (priceInput - discountAmount).toFixed(2);
+                                            discountMessage.textContent = `Calculated price after discount: ${discountedPrice}`;
+                                        } else {
+                                            discountMessage.textContent = "";
+                                        }
+                                    }
+                                </script>
+                                
+                               
                             </div>
                         </div>
                     </div>
@@ -240,66 +331,47 @@ Product
          <!-- Product Variants Section -->
 <!-- Product Variants Section -->
 <div class="card mb-3">
-  <div class="card-header">
-      <h5 class="card-title mb-0">Product Variants</h5>
-  </div>
-  <div class="card-body">
-      <div class="row">
-          <div class="col-md-6">
-              <div class="form-group row mb-3">
-                  <label class="col-sm-3 text-end control-label col-form-label">Colors</label>
-                  <div class="col-sm-9">
-                      <select name="colors[]" class="select2 form-control" multiple>
-                          @foreach($color as $item)
-                              <option value="{{ $item->id }}">{{ $item->name }}</option>
-                          @endforeach
-                      </select>
-                      @error('colors')
-                      <span class="text-danger">{{ $message }}</span>
-                      @enderror
-                  </div>
-              </div>
-
-              <div class="form-group row mb-3">
-                  <label class="col-sm-3 text-end control-label col-form-label">Stock Quantity</label>
-                  <div class="col-sm-9">
-                      <input type="number" name="stock_quantity" class="form-control" placeholder="Enter Stock Quantity">
-                      @error('stock_quantity')
-                      <span class="text-danger">{{ $message }}</span>
-                      @enderror
-                  </div>
-              </div>
-          </div>
-
-          <div class="col-md-6">
-              <div class="form-group row mb-3">
-                  <label class="col-sm-3 text-end control-label col-form-label">Sizes</label>
-                  <div class="col-sm-9">
-                      <select name="sizes[]" class="select2 form-control" multiple>
-                          @foreach($size as $item)
-                              <option value="{{ $item->id }}">{{ $item->name }}</option>
-                          @endforeach
-                      </select>
-                      @error('sizes')
-                      <span class="text-danger">{{ $message }}</span>
-                      @enderror
-                  </div>
-              </div>
-
-              <div class="form-group row mb-3">
-                  <label class="col-sm-3 text-end control-label col-form-label">Variant Price</label>
-                  <div class="col-sm-9">
-                      <input type="number" name="variant_price" class="form-control" step="0.01" placeholder="Enter Variant Price">
-                      @error('variant_price')
-                      <span class="text-danger">{{ $message }}</span>
-                      @enderror
-                  </div>
-              </div>
-
-             
-          </div>
-      </div>
-  </div>
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="card-title mb-0">Product Variants</h5>
+        <button type="button" class="btn btn-primary btn-sm" id="add-variant">
+            Add Variant <i class="fas fa-plus"></i>
+        </button>
+    </div>
+    <div class="card-body">
+        <div id="variants-container">
+            <div class="variant-row mb-3">
+                <div class="row">
+                    <div class="col-md-3">
+                        <select name="colors[]" class="form-select form-control">
+                            <option value="">Select Color</option>
+                            @foreach($color as $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select name="sizes[]" class="form-select form-control">
+                            <option value="">Select Size</option>
+                            @foreach($size as $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="number" name="stock_quantity[]" class="form-control" placeholder="Stock">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="number" name="variant_price[]" class="form-control" step="0.01" placeholder="Price">
+                    </div>
+                    <div class="col-md-1">
+                        <button type="button" class="btn btn-danger btn-sm remove-variant">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
   <!-- Gallery Images Section -->
 <div class="card mb-3">
@@ -330,18 +402,114 @@ Product
  
 
 <script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    const variantsContainer = document.getElementById('variants-container');
+    const addVariantButton = document.getElementById('add-variant');
+
+    // Function to create new variant row
+    function createVariantRow() {
+        const newRow = document.createElement('div');
+        newRow.className = 'variant-row mb-3';
+        newRow.innerHTML = `
+            <div class="row">
+                <div class="col-md-3">
+                    <select name="colors[]" class="form-select form-control">
+                        <option value="">Select Color</option>
+                        @foreach($color as $item)
+                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select name="sizes[]" class="form-select form-control">
+                        <option value="">Select Size</option>
+                        @foreach($size as $item)
+                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <input type="number" name="stock_quantity[]" class="form-control" placeholder="Stock">
+                </div>
+                <div class="col-md-3">
+                    <input type="number" name="variant_price[]" class="form-control" step="0.01" placeholder="Price">
+                </div>
+                <div class="col-md-1">
+                    <button type="button" class="btn btn-danger btn-sm remove-variant">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+        return newRow;
+    }
+
+    // Add new variant row
+    addVariantButton.addEventListener('click', function() {
+        const newRow = createVariantRow();
+        variantsContainer.appendChild(newRow);
+    });
+
+    // Remove variant row
+    variantsContainer.addEventListener('click', function(e) {
+        if (e.target.classList.contains('remove-variant') || 
+            e.target.closest('.remove-variant')) {
+            const row = e.target.closest('.variant-row');
+            if (variantsContainer.children.length > 1) {
+                row.remove();
+            } else {
+                alert('At least one variant is required');
+            }
+        }
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// start js for selecting subcategory for the category
+
+
+
    document.addEventListener('DOMContentLoaded', function () {
     const categoryDropdown = document.getElementById('category');
     const subcategoryDropdown = document.getElementById('subcategory');
     
-    // Get CSRF token from meta tag
+
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
     categoryDropdown.addEventListener('change', function () {
         const categoryId = this.value;
         
-        // Clear previous options
-        subcategoryDropdown.innerHTML = '<option value="">Select Subcategory</option>';
+        subcategoryDropdown.innerHTML = '<option  name="subcategory_id" id="subcategory" value="">Select Subcategory</option>';
 
         if (categoryId) {
             fetch(`/product/get-subcategories/${categoryId}`, {

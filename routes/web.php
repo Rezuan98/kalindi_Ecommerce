@@ -138,6 +138,7 @@ Route::group(['prefix'=>"product",'as'=>'product.'],function(){
     Route::get('/list','ProductController@index')->name('index');
     Route::get('/create','ProductController@create')->name('create');
     Route::get('/get-subcategories/{categoryId}','ProductController@getSubcategories')->name('get.subcategories');
+    Route::get('/view/details/{id}','ProductController@ViewDetails')->name('view.details');
 
     Route::post('/store','ProductController@store')->name('store');
     Route::get('/edit/{id}','ProductController@edit')->name('edit');

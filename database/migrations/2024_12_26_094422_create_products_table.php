@@ -24,7 +24,7 @@ Schema::create('products', function (Blueprint $table) {
     $table->foreignId('unit_id')->nullable()->constrained('units')->onDelete('set null');
     $table->enum('discount_type', ['fixed', 'percentage'])->nullable();  
     $table->decimal('discount_amount', 10, 2)->nullable();
-    
+    $table->string('tags')->nullable(); 
     $table->decimal('sale_price', 10, 2)->nullable();
     $table->text('description')->nullable();
     $table->boolean('status')->default(true);

@@ -8,7 +8,8 @@ use App\Models\Product;
 use App\Models\Color;
 use App\Models\Size;
 
-class Product_Varient extends Model
+
+class ProductVarient extends Model
 {
     use HasFactory;
 
@@ -31,4 +32,6 @@ class Product_Varient extends Model
     {
         return $this->belongsTo(Size::class);
     }
+
+
 }

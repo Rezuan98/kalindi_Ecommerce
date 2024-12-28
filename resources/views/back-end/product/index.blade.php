@@ -61,44 +61,84 @@ h4.card-title{
                   <div class="table-responsive">
                     <table
                       id="zero_config"
-                      class="table table-bordered"
+                      class="table table-bordered text-center"
                     >
                       <thead>
                         <tr>
-                          <th>SN</th>
+                          <th>#</th>
+                          <th>Image</th>
                           <th>Name</th>
+                          <th>Code</th>
+                          <th>Category</th>
+                          <th>Subcategory</th>
+                          
+                          <th>Unit</th>
+                          <th>Discount</th>
+                          <th>Sale Price</th>
+                          <th>Status</th>
                           <th>Action</th>
-                        </tr>
+                      </tr>
                       </thead>
                       <tbody>
-                      	@php
-                      	$i=1
-                      	@endphp
-                      	@foreach($lists as $info)
-                          <tr>
-                              <td>{{ $i++ }}</td>
-                              <td>{{ $info->product_name }}</td>
-<!--                               <td>
-                                  @php
-                                      $images = explode(',', $info->product_image);
-                                  @endphp
+                        @php
+                            $i = 1;
+                        @endphp
+                        @foreach($lists as $info)
+                            <tr>
+                                <td>{{ $i++ }}</td>
+                                <td>
+                                    <img src="{{ asset('uploads/products/' . $info->product_image) }}" 
+                                         alt="{{ $info->product_name }}" 
+                                         class="img-thumbnail"
+                                         style="width: 50px; height: 50px; object-fit: cover;">
+                                </td>
+                                <td>{{ $info->product_name }}</td>
+                                <td>{{ $info->product_code }}</td>
+                                <td>{{ $info->category->name }}</td>
+                                <td>{{ $info->subcategory->name }}</td>
+                                
+                                <td>{{ $info->unit->name ?? 'N/A' }}</td>
+                                <td>
+                                    @if($info->discount_type)
+                                        {{ number_format($info->discount_amount) }}
+                                        {{ $info->discount_type === 'percentage' ? '%' : '$' }}
+                                    @else
+                                        No Discount
+                                    @endif
+                                </td>
+                                <td>{{ number_format($info->sale_price,0) }}</td>
+                                <td>
+                                    <span class="badge {{ $info->status ? 'bg-success' : 'bg-danger' }}">
+                                        {{ $info->status ? 'Active' : 'Inactive' }}
+                                    </span>
+                                </td>
+                                <td>
+                                  <button title="Action" class="btn without-focus border-0 px-1 py-0 mr-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-ellipsis-v"></i>
+                                </button>
+        
+                                      <div class="dropdown-menu" role="menu" style="">
+                                         
+                                        <a class="dropdown-item" href="{{ route('product.view.details',$info->id) }}">
+                                          <i class="fa fa-eye"></i> Varient
+                                        </a>
 
-                                  @foreach($images as $image)
-                                      <img src="{{ asset('back-end/product/' . $image) }}" style="width:50px;height: 50px; margin-right: 5px;">
-                                  @endforeach
-                              </td> -->
-                              <td>
-                                  <a href="{{ route('product.edit', $info->id) }}" class="btn btn-sm btn-primary">
-                                      <i class="fa fa-edit"></i>
-                                  </a>
-                                  <a href="{{ route('product.delete', $info->id) }}" class="btn btn-sm btn-danger">
-                                      <i class="fa fa-trash"></i>
-                                  </a>
-                              </td>
-                          </tr>
-                      @endforeach
-
-                      </tbody>
+                                         <a class="dropdown-item" href="{{ route('product.edit',$info->id) }}">
+                                          <i class="fa fa-edit"></i> Edit
+                                        </a>
+        
+                                         <a class="dropdown-item" href=""> 
+                                          <i class="fa fa-trash"></i> Delete
+                                        </a>
+        
+                                      </div>
+  
+                                   
+                                   
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
                     </table>
                   </div>
                 </div>

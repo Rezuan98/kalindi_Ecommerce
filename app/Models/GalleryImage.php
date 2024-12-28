@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Product;
 
-class Galary_Image extends Model
+class GalleryImage extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'product_id', 'image_path', 'is_primary', 'sort_order'
+        'product_id', 'image_path', 
     ];
 
     public function product()

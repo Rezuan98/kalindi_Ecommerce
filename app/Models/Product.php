@@ -12,17 +12,50 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = [
-        'product_name','slug','product_image', 'product_code', 'category_id', 
-        'subcategory_id', 'brand_id', 'unit_id',
-        'regular_price', 'sale_price', 'description', 'status'
+        'product_name',
+        'slug',
+        'product_image',
+        'product_code',
+        'category_id',
+        'subcategory_id',
+        'brand_id',
+        'unit_id',
+        'discount_type',
+        'discount_amount',
+        'tags',
+        'sale_price',
+        'description',
+        'status'
     ];
+
+
+    // Define relationships
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function subcategory()
+    {
+        return $this->belongsTo(Subcategory::class);
+    }
+
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class);
+    }
+
+    public function unit()
+    {
+        return $this->belongsTo(Unit::class);
+    }
 
     public function variants()
     {
-        return $this->hasMany(ProductVariant::class);
+        return $this->hasMany(ProductVarient::class);
     }
 
-    public function images()
+    public function galleryImages()
     {
         return $this->hasMany(GalleryImage::class);
     }
