@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('size_id')->constrained('sizes')->onDelete('cascade');
             $table->integer('stock_quantity')->default(0);
             $table->decimal('variant_price', 10, 2)->nullable(); 
-            $table->string('sku')->unique(); // Combination of product code + color + size
+            $table->string('sku')->unique()->nullable(); // Combination of product code + color + size
             $table->boolean('status')->default(true);
             
             $table->timestamps();

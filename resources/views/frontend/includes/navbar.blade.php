@@ -20,16 +20,43 @@
  
                 <!-- Right Icons -->
                 <div id="right-icons" class="col-4 d-flex justify-content-end">
+
+
+
+
                     <a href="#" class="nav-icon"><i class="fas fa-user"></i></a>
 
                     <div id="user-dropdown" class="user-dropdown">
                         <ul>
-                            <li><a href="#">My Account</a></li>
-                            <li><a href="#">Orders</a></li>
-                            <li><a href="#">Wishlist</a></li>
-                            <li><a href="#">Logout</a></li>
+                            @auth
+                                {{-- Show these items when user is logged in --}}
+                                <li><a href="{{ route('user.dashboard') }}">Profile</a></li>
+                                <li><a href="{{ route('user.orders') }}">Orders</a></li>
+                                <li><a href="{{ route('user.wishlist') }}">Wishlist</a></li>
+                                <li>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <a href="" 
+                                           onclick="event.preventDefault(); this.closest('form').submit();">
+                                            Logout
+                                        </a>
+                                    </form>
+                                </li>
+                            @else
+                                {{-- Show these items when user is not logged in --}}
+                                <li><a href="{{ route('user.dashboard') }}">My Account</a></li>
+                                <li><a href="{{ route('user.orders') }}">Orders</a></li>
+                                <li><a href="{{ route('user.wishlist') }}">Wishlist</a></li>
+                                <li><a href="{{ route('user.login') }}">Login</a></li>
+                            @endauth
                         </ul>
                     </div>
+
+
+
+
+
+
                     <a href="#" onclick="toggleSearch()" class="nav-icon d-none d-lg-block"><i class="fas fa-search"></i></a>
                     <a href="#" class="nav-icon d-none d-lg-block"><i class="fas fa-heart"></i></a>
                     <a href="#" data-bs-toggle="offcanvas" data-bs-target="#cartMenu" aria-controls="cartMenu" class="nav-icon cart-icon">

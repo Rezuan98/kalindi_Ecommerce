@@ -108,9 +108,12 @@ h4.card-title{
                                 </td>
                                 <td>{{ number_format($info->sale_price,0) }}</td>
                                 <td>
-                                    <span class="badge {{ $info->status ? 'bg-success' : 'bg-danger' }}">
-                                        {{ $info->status ? 'Active' : 'Inactive' }}
-                                    </span>
+                                  <label class="switch">
+                                    <input type="checkbox" class="status-switch" 
+                                           data-id="{{ $info->id }}"
+                                           {{ $info->status ? 'checked' : '' }}>
+                                    <span class="slider round"></span>
+                                </label>
                                 </td>
                                 <td>
                                   <button title="Action" class="btn without-focus border-0 px-1 py-0 mr-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -127,9 +130,16 @@ h4.card-title{
                                           <i class="fa fa-edit"></i> Edit
                                         </a>
         
-                                         <a class="dropdown-item" href=""> 
+                                         <a class="dropdown-item" href="{{ route('product.delete',$info->id) }}"> 
                                           <i class="fa fa-trash"></i> Delete
                                         </a>
+
+                                        <form action="{{ route('product.duplicate', $info->id) }}" method="POST" style="display: inline;">
+                                          @csrf
+                                          <button type="submit" class="btn btn-info btn-sm">
+                                              <i class="fa fa-copy"></i> Duplicate
+                                          </button>
+                                      </form>
         
                                       </div>
   
@@ -145,6 +155,40 @@ h4.card-title{
               </div>
 @endsection
 
-@push('admin-scripts')
+{{-- @push('admin-scripts')
 
+@endpush --}}
+
+@push('admin-scripts')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('.status-switch').on('change', function() {
+        const productId = $(this).data('id');
+        const isChecked = $(this).is(':checked');
+        
+        $.ajax({
+            url: "{{ route('product.updateStatus') }}", // You'll need to create this route
+            type: 'POST',
+            data: {
+                id: productId,
+                status: isChecked ? 1 : 0,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                if(response.success) {
+                    toastr.success('Status updated successfully!');
+                } else {
+                    toastr.error('Failed to update status!');
+                }
+            },
+            error: function() {
+                toastr.error('Something went wrong!');
+                // Revert the switch if the request failed
+                $(this).prop('checked', !isChecked);
+            }
+        });
+    });
+});
+</script>
 @endpush

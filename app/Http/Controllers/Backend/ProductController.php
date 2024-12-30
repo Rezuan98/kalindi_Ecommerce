@@ -152,43 +152,110 @@ public function ViewDetails($id){
 
 
      public function edit($id){
-     	$info = Product::findOrFail($id);
-    	return view('back-end.product.edit',compact('info'));
+        $product = Product::with(['variants', 'galleryImages'])->findOrFail($id);
+        $categories = Category::all();
+        $subcategories = Subcategory::where('category_id', $product->category_id)->get();
+        $brands = Brand::all();
+        $units = Unit::all();
+        $colors = Color::all();
+        $sizes = Size::all();
+    
+        return view('back-end.product.edit', compact(
+            'product',
+            'categories',
+            'subcategories',
+            'brands',
+            'units',
+            'colors',
+            'sizes'
+        ));
     }
-
-   public function update(Request $request){
-    // Validate the request
-    $request->validate([
-        'product_name' => 'required|string|max:255',
-    ]);
-
-    $info = Product::findOrFail($request->id);
-    $info->product_name = $request->product_name;
-
-  
-    // if($request->hasfile('product_image')){
-       
-    //     $oldImages = explode(',', $info->product_image);
-    //     foreach ($oldImages as $oldImage) {
-    //         $destination = public_path('back-end/product/').$oldImage;
-    //         if(file_exists($destination)){
-    //             @unlink($destination);
-    //         }
-    //     }
-
-     
-    //     $images = $request->file('product_image');
-    //     $imagePaths = [];
-    //     foreach ($images as $image) {
-    //         $fileName = time().'_'.$image->getClientOriginalName();
-    //         $image->move(public_path('back-end/product'), $fileName);
-    //         $imagePaths[] = $fileName;
-    //     }
-
-    //     $info->product_image = implode(',', $imagePaths);
-    // }
-
-    $info->save();
+    
+    public function update(Request $request, $id)
+    { 
+        // Validate the request
+        // $request->validate([
+        //     'product_name' => 'required|max:255',
+        //     'category_id' => 'required|exists:categories,id',
+        //     'subcategory_id' => 'required|exists:subcategories,id',
+        //     'brand_id' => 'required|exists:brands,id',
+        //     'unit_id' => 'required|exists:units,id',
+        //     'price' => 'required|numeric|min:0',
+        //     'discount_type' => 'nullable|in:flat,percentage',
+        //     'discount' => 'nullable|numeric|min:0',
+        //     'product_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        //     'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        //     'colors.*' => 'nullable|exists:colors,id',
+        //     'sizes.*' => 'nullable|exists:sizes,id',
+        //     'stock_quantity.*' => 'nullable|numeric|min:0',
+        //     'variant_price.*' => 'nullable|numeric|min:0',
+        // ]);
+    
+        $product = Product::findOrFail($id);
+    
+        // Update basic product information
+        $product->product_name = $request->product_name;
+        $product->category_id = $request->category_id;
+        $product->subcategory_id = $request->subcategory_id;
+        $product->brand_id = $request->brand_id;
+        $product->unit_id = $request->unit_id;
+        $product->description = $request->description;
+        $product->sale_price = $request->price;
+        $product->discount_type = $request->discount_type;
+        $product->discount_amount = $request->discount;
+        $product->tags = $request->tags;
+    
+        // Handle product image update
+        if ($request->hasFile('product_image')) {
+            // Delete old image
+            if ($product->product_image && file_exists(public_path('uploads/products/' . $product->product_image))) {
+                unlink(public_path('uploads/products/' . $product->product_image));
+            }
+            
+            $image = $request->file('product_image');
+            $imageName = 'product_' . time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads/products'), $imageName);
+            $product->product_image = $imageName;
+        }
+    
+        $product->save();
+    
+        // Handle variants
+        if ($request->has('variant_ids')) {
+            foreach ($request->variant_ids as $key => $variantId) {
+                $variantData = [
+                    'product_id' => $product->id,
+                    'color_id' => $request->colors[$key] ?? null,
+                    'size_id' => $request->sizes[$key] ?? null,
+                    'stock_quantity' => $request->stock_quantity[$key] ?? 0,
+                    'variant_price' => $request->variant_price[$key] ?? 0,
+                    // 'sku' => $product->product_code . '-' . $colorId . '-' . $sizes[$key];
+                ];
+              
+                if ($variantId) {
+                    // Update existing variant
+                    ProductVarient::where('id', $variantId)->update($variantData);
+                } else {
+                    // Create new variant
+                    ProductVarient::create($variantData);
+                }
+            }
+        }
+    
+        // Handle gallery images
+        if ($request->hasFile('gallery')) {
+            foreach ($request->file('gallery') as $image) {
+                $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('uploads/gallery'), $imageName);
+    
+                $galleryImage = new GalleryImage();
+                $galleryImage->product_id = $product->id;
+                $galleryImage->image = $imageName;
+                $galleryImage->save();
+            }
+        }
+    
+      
 
     Toastr::success('Product Updated Successfully', 'Success', ["positionClass" => "toast-top-right"]);
     return redirect()->route('product.index');
@@ -197,10 +264,7 @@ public function ViewDetails($id){
 
     public function delete($id){
      	$info = Product::findOrFail($id);
-     	//  if($info){
-        //    @unlink(public_path('back-end/product/'.$info->product_image));
-        //    $info->delete(); 
-        // }
+     	
      	$info->delete();
     	return redirect()->route('product.index');
     }
@@ -216,5 +280,115 @@ public function ViewDetails($id){
     $subcategories = Subcategory::where('category_id', $categoryId)->get();
     return response()->json($subcategories);
 }
+public function updateStatus(Request $request)
+{
+    try {
+        $product = Product::findOrFail($request->id);
+        $product->status = $request->status;
+        $product->save();
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Status updated successfully!'
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Failed to update status!'
+        ]);
+    }
+}
+public function updateVarientStatus(Request $request)
+{
+    try {
+        $varient = ProductVarient::findOrFail($request->id);
+        $varient->status = $request->status;
+        $varient->save();
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Status updated successfully!'
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Failed to update status!'
+        ]);
+    }
+}
+
+public function deleteGalleryImage($id){
+
+    GalleryImage::where('id',$id)->delete();
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Image Deleted successfully!'
+    ]);
+
+
+
+}
+
+
+public function duplicateProduct($id)
+{
+    try {
+        // Find original product
+        $originalProduct = Product::with(['variants', 'galleryImages'])->findOrFail($id);
+
+        // Replicate the product
+        $newProduct = $originalProduct->replicate();
+        $newProduct->product_name = $originalProduct->product_name . ' (Copy)';
+        $newProduct->slug = Str::slug($newProduct->product_name);
+        $newProduct->product_code = 'P' . time() . rand(10000, 99999);
+        
+        // Copy product image
+        if ($originalProduct->product_image) {
+            $originalPath = public_path('uploads/products/') . $originalProduct->product_image;
+            $newImageName = time() . '_' . uniqid() . '.' . pathinfo($originalProduct->product_image, PATHINFO_EXTENSION);
+            $newPath = public_path('uploads/products/') . $newImageName;
+            
+            if (file_exists($originalPath)) {
+                copy($originalPath, $newPath);
+                $newProduct->product_image = $newImageName;
+            }
+        }
+
+        $newProduct->save();
+
+        // Replicate variants
+        foreach ($originalProduct->variants as $variant) {
+            $newVariant = $variant->replicate();
+            $newVariant->product_id = $newProduct->id;
+            $newVariant->sku = $newProduct->product_code . '-' . $variant->color_id . '-' . $variant->size_id;
+            $newVariant->save();
+        }
+
+        // Replicate gallery images
+        foreach ($originalProduct->galleryImages as $gallery) {
+            $originalPath = public_path('uploads/gallery/') . $gallery->image;
+            $newImageName = time() . '_' . uniqid() . '.' . pathinfo($gallery->image, PATHINFO_EXTENSION);
+            $newPath = public_path('uploads/gallery/') . $newImageName;
+            
+            if (file_exists($originalPath)) {
+                copy($originalPath, $newPath);
+                
+                $newGallery = new GalleryImage();
+                $newGallery->product_id = $newProduct->id;
+                $newGallery->image = $newImageName;
+                $newGallery->save();
+            }
+        }
+
+        Toastr::success('Product duplicated successfully', 'Success', ["positionClass" => "toast-top-right"]);
+        return redirect()->route('product.index');
+
+    } catch (\Exception $e) {
+        Toastr::error('Failed to duplicate product', 'Error', ["positionClass" => "toast-top-right"]);
+        return redirect()->back();
+    }
+}
+
 
 }

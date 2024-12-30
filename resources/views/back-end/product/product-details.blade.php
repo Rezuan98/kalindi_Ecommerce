@@ -59,14 +59,20 @@ Product Details
                             </td>
                             <td>${{ number_format($variant->variant_price, 2) }}</td>
                             <td>
-                                <div class="form-check form-switch">
+                                {{-- <div class="form-check form-switch">
                                     <input type="checkbox" class="form-check-input status-switch" 
                                            data-id="{{ $variant->id }}"
                                            {{ $variant->status ? 'checked' : '' }}>
-                                </div>
+                                </div> --}}
+                                <label class="switch">
+                                    <input type="checkbox" class="status-switch" 
+                                           data-id="{{ $variant->id }}"
+                                           {{ $variant->status ? 'checked' : '' }}>
+                                    <span class="slider round"></span>
+                                </label>
                             </td>
                             <td>
-                                <button type="button" class="btn btn-sm btn-info edit-variant" 
+                                {{-- <button type="button" class="btn btn-sm btn-info edit-variant" 
                                         data-id="{{ $variant->id }}"
                                         data-bs-toggle="modal" 
                                         data-bs-target="#editVariantModal">
@@ -75,7 +81,7 @@ Product Details
                                 <a href="" 
                                    class="btn btn-sm btn-danger delete-variant">
                                     <i class="fa fa-trash"></i>
-                                </a>
+                                </a> --}}
                             </td>
                         </tr>
                     @endforeach
@@ -86,3 +92,37 @@ Product Details
 </div>
 
 @endsection
+
+@push('admin-scripts')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('.status-switch').on('change', function() {
+        const varientId = $(this).data('id');
+        const isChecked = $(this).is(':checked');
+        
+        $.ajax({
+            url: "{{ route('product.varient.updateStatus') }}", // You'll need to create this route
+            type: 'POST',
+            data: {
+                id: varientId,
+                status: isChecked ? 1 : 0,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                if(response.success) {
+                    toastr.success('Status updated successfully!');
+                } else {
+                    toastr.error('Failed to update status!');
+                }
+            },
+            error: function() {
+                toastr.error('Something went wrong!');
+                // Revert the switch if the request failed
+                $(this).prop('checked', !isChecked);
+            }
+        });
+    });
+});
+</script>
+@endpush
