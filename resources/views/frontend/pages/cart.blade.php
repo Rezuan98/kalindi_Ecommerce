@@ -26,11 +26,15 @@
                                      alt="{{ $item->product->name }}" 
                                      class="img-fluid rounded">
                             </div>
+                           
                             <div class="col-4">
                                 <h6>{{ $item->product->product_name }}</h6>
-                                <p class="text-muted mb-0">Size: {{ $item->variant && $item->variant->size ? $item->variant->size->name : 'Not Available' }}</p>
-
-                                <p class="text-muted">Color: {{ $item->variant && $item->variant->color->name? $item->variant->color->name : 'Not Available' }}</p>
+                                <p class="text-muted mb-0">
+                                    Size: {{ $item->variant && $item->variant->size ? $item->variant->size->name : 'Not Available' }}
+                                </p>
+                                <p class="text-muted">
+                                    Color: {{ $item->variant && $item->variant->color ? $item->variant->color->name : 'Not Available' }}
+                                </p>
                                 <h6 class="mb-0 item-price">৳{{ number_format($item->price, 2) }}</h6>
                             </div>
                             <div class="col-3">

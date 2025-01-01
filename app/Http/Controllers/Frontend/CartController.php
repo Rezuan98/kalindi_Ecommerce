@@ -13,21 +13,26 @@ use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
-    public function viewCart(){
 
+    public function viewCart()
+    {
         if (Auth::check()) {
             // For authenticated users - get from database
-            $cartItems = Cart::with(['product', 'variant'])
-                ->where('user_id', Auth::id())
-                ->get();
+            $cartItems = Cart::with([
+                'product',
+                'variant.color',
+                'variant.size'
+            ])->where('user_id', Auth::id())
+              ->get();
+            
             $cartCount = $cartItems->sum('quantity');
         } else {
             // For guests - get from session
             $sessionCart = session('cart', []);
+            
             $cartItems = collect($sessionCart)->map(function ($item, $key) {
-                // Get product and variant details
                 $product = Product::find($item['product_id']);
-                $variant = ProductVarient::find($item['varient_id']);
+                $variant = ProductVarient::with(['color', 'size'])->find($item['varient_id']);
                 
                 return (object)[
                     'id' => $key,
@@ -37,11 +42,53 @@ class CartController extends Controller
                     'price' => $item['price']
                 ];
             });
+            
             $cartCount = $cartItems->sum('quantity');
         }
-   
-        return view('frontend.pages.cart', compact('cartItems', 'cartCount'));
+    
+       
+    
+        return view('frontend.pages.cart', compact(
+            'cartItems', 
+            'cartCount', 
+            
+        ));
     }
+    // public function viewCart()
+    // {
+    //     if (Auth::check()) {
+    //         // For authenticated users - get from database
+    //         $cartItems = Cart::with([
+    //             'product',
+    //             'variant',
+    //             'variant.color',
+    //             'variant.size'
+    //         ])->where('user_id', Auth::id())
+    //           ->get();
+            
+    //         $cartCount = $cartItems->sum('quantity');
+    //     } else {
+    //         // For guests - get from session
+    //         $sessionCart = session('cart', []);
+    //         $cartItems = collect($sessionCart)->map(function ($item, $key) {
+    //             $product = Product::find($item['product_id']);
+    //             $variant = ProductVarient::with(['color', 'size'])->find($item['varient_id']);
+                
+    //             return (object)[
+    //                 'id' => $key,
+    //                 'product' => $product,
+    //                 'variant' => $variant,
+    //                 'quantity' => $item['quantity'],
+    //                 'price' => $item['price']
+    //             ];
+    //         });
+            
+    //         $cartCount = $cartItems->sum('quantity');
+    //     }
+    //     dd($cartItems );
+    
+    //     return view('frontend.pages.cart', compact('cartItems', 'cartCount'));
+    // }
 
     public function addToCart(Request $request)
     {

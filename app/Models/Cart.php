@@ -27,7 +27,13 @@ class Cart extends Model
 
     public function variant()
     {
-        return $this->belongsTo(ProductVarient::class);
+        // Explicitly define all parameters
+        return $this->belongsTo(
+            ProductVarient::class,    // Related model
+            'varient_id',            // Foreign key on carts table
+            'id',                    // Local key on product_varients table
+            'variant'                // Relation name
+        );
     }
 
 }

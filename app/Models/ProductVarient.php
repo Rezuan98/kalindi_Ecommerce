@@ -12,7 +12,7 @@ use App\Models\Size;
 class ProductVarient extends Model
 {
     use HasFactory;
-
+    protected $table = 'product_varients';
     protected $fillable = [
         'product_id', 'color_id', 'size_id', 
         'stock_quantity', 'variant_price', 'sku', 'status'
@@ -31,6 +31,11 @@ class ProductVarient extends Model
     public function size()
     {
         return $this->belongsTo(Size::class);
+    }
+
+    public function carts()
+    {
+        return $this->hasMany(Cart::class, 'varient_id', 'id');
     }
 
 
