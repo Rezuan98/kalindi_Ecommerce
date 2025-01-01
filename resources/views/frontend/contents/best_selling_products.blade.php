@@ -21,7 +21,7 @@
                             </button>
 
                             <div class="product-image">
-                                <a href="{{ route('product.details') }}"> <img src="{{ asset('frontend/images/slide2.webp') }}" alt=""> </a>
+                                <a href=""> <img src="{{ asset('frontend/images/slide2.webp') }}" alt=""> </a>
                                 <!-- Plus Button -->
                                 <button class="plus-btn" data-bs-toggle="offcanvas" data-bs-target="#cartMenu" aria-controls="cartMenu">
                                     <i class="fas fa-plus"></i>
@@ -68,7 +68,7 @@
                             </button>
 
                             <div class="product-image">
-                                <a href="{{ route('product.details') }}"> <img src="{{ asset('frontend/images/slide2.webp') }}" alt=""> </a>
+                                <a href=""> <img src="{{ asset('frontend/images/slide2.webp') }}" alt=""> </a>
                                 <!-- Plus Button -->
                                 <button class="plus-btn" data-bs-toggle="offcanvas" data-bs-target="#cartMenu" aria-controls="cartMenu">
                                     <i class="fas fa-plus"></i>
@@ -113,7 +113,7 @@
                             </button>
 
                             <div class="product-image">
-                                <a href="{{ route('product.details') }}"> <img src="{{ asset('frontend/images/slide2.webp') }}" alt=""> </a>
+                                <a href=""> <img src="{{ asset('frontend/images/slide2.webp') }}" alt=""> </a>
                                 <!-- Plus Button -->
                                 <button class="plus-btn" onclick="toggleCart()">
                                     <i class="fas fa-plus"></i>
@@ -159,7 +159,7 @@
                             </button>
 
                             <div class="product-image">
-                                <a href="{{ route('product.details') }}"> <img src="{{ asset('frontend/images/slide2.webp') }}" alt=""> </a>
+                                <a href=""> <img src="{{ asset('frontend/images/slide2.webp') }}" alt=""> </a>
                                 <!-- Plus Button -->
                                 <button class="plus-btn" onclick="toggleCart()">
                                     <i class="fas fa-plus"></i>

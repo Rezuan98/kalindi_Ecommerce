@@ -285,7 +285,9 @@ Edit Product
                         <div class="variant-row mb-3">
                             <div class="row">
                                 <input type="hidden" name="variant_ids[]" value="{{ $variant->id }}">
+                             
                                 <div class="col-md-3">
+                                    
                                     <select name="colors[]" class="form-select form-control">
                                         <option value="">Select Color</option>
                                         @foreach($colors as $color)
@@ -450,18 +452,45 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Remove variant row
-    variantsContainer.addEventListener('click', function(e) {
-        if (e.target.classList.contains('remove-variant') || 
-            e.target.closest('.remove-variant')) {
-            const row = e.target.closest('.variant-row');
-            if (variantsContainer.children.length > 1) {
-                row.remove();
-            } else {
-                alert('At least one variant is required');
-            }
-        }
-    });
+    variantsContainer.addEventListener('click', async function(e) {
+    if (e.target.classList.contains('remove-variant') || 
+        e.target.closest('.remove-variant')) {
+        const row = e.target.closest('.variant-row');
+        const variantId = row.querySelector('input[name="variant_ids[]"]').value;
 
+       
+
+        if (variantsContainer.children.length > 1) {
+            if (variantId) { // If variant exists in database
+                if (confirm('Are you sure you want to delete this variant?')) {
+                    try {
+                       
+                        const response = await fetch(`/product/delete/variant/${variantId}`, {
+                            method: 'delete',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                                'Accept': 'application/json'
+                            }
+                        });
+
+                        if (response.ok) {
+                            row.remove();
+                        } else {
+                            alert(' variant not deleted');
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('Failed to delete variant');
+                    }
+                }
+            } else { // If it's a new variant not yet saved
+                row.remove();
+            }
+        } else {
+            alert('At least one variant is required');
+        }
+    }
+});
 
     // Handle gallery image deletion
     document.querySelectorAll('.delete-image').forEach(button => {

@@ -26,7 +26,7 @@ function previewImage(input) {
                 <div class="card-body text-center">
                     <div class="mb-3">
                         <img src="{{ !empty($user->image) 
-                        ? asset('storage/userimages/' . $user->image)
+                        ? asset('storage/' . $user->image)
                         : asset('frontend/images/defaultuser.png') }}"
                         alt="Profile Picture"
                         class="rounded-circle"

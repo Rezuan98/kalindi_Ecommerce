@@ -7,176 +7,63 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="row">
-
+                    @foreach($new_arrival as $product)
                     <div class="col-lg-3 col-6">
                         <div class="product-box">
-                            <!-- Product Badge -->
-                            <span class="product-badge">In Stock</span>
+                            <span class="product-badge">
+                                {{ $product->variants->first()->stock_quantity ? 'In Stock' : 'Out of stock' }}
+                            </span>
                             
-                            <!-- Wishlist Icon -->
                             <button class="wishlist-btn">
                                 <i class="far fa-heart"></i>
                             </button>
                         
-                            <!-- Quick View Button -->
-                            <button class="quickview-btn" onclick="openMenu()">
+                            <button class="quickview-btn" onclick="openQuickViewMenu()">
                                 <i class="fas fa-eye"></i>
                             </button>
                         
                             <div class="product-image">
-                                <img src="{{ asset('frontend/images/slide2.webp') }}" alt="">
-                                <!-- Plus Button -->
-                                <button class="plus-btn">
+                                <a href="{{ route('product.details',$product->id) }}">  <img src="{{ asset('uploads/products/' . $product->product_image) }}" alt="{{ $product->name }}"></a>
+                                <button class="plus-btn"onclick="openQuickViewMenu()">
                                     <i class="fas fa-plus"></i>
                                 </button>
                             </div>
-                        
-                            <div class="product-info d-flex justify-content-around">
+
+                            <?php
+                            $discount_type = $product->discount_type;
+                            $discount_amount = $product->discount_amount;
+                            $sale_price = $product->sale_price;
+                            if ($discount_type='flat amount') {
+                                $final_price = $sale_price - $discount_amount;
+                            }
+                            if ($discount_type='percentage'){
+                               
+                                $final_price =$sale_price-($sale_price/100)*$discount_amount;
                                 
-                                <div class="product-price">
-                                    <p class="product-title">Cotton Printed Kameez</p>
-                                    <span class="current-price">৳1,590</span>
-                                    <span class="original-price">৳1,990</span>
-                                </div>
 
-                                <div class="image-dots">
-                                    <span class="dot active" data-image="{{ asset('frontend/images/slide2.webp') }}"></span>
-                                    <span class="dot" data-image="{{ asset('frontend/images/kalindi.webp') }}"></span>
-                                    <span class="dot" data-image="{{ asset('frontend/images/kalindi2.webp') }}"></span>
-                                </div>
-                            </div>
-                        
-                            <!-- Image Dots -->
-                            
-                        </div>
-                    </div>
 
-                    <div class="col-lg-3 col-6">
-                        <div class="product-box">
-                            <!-- Product Badge -->
-                            <span class="product-badge">In Stock</span>
+                            }
+
+
                             
-                            <!-- Wishlist Icon -->
-                            <button class="wishlist-btn">
-                                <i class="far fa-heart"></i>
-                            </button>
-                        
-                            <!-- Quick View Button -->
-                            <button class="quickview-btn" onclick="openMenu()">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        
-                            <div class="product-image">
-                                <img src="{{ asset('frontend/images/slide2.webp') }}" alt="">
-                                <!-- Plus Button -->
-                                <button class="plus-btn">
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                            </div>
+                            ?>
                         
                             <div class="product-info d-flex justify-content-around">
-                               
                                 <div class="product-price">
-                                    <p class="product-title">Cotton Printed Kameez</p>
-                                    <span class="current-price">৳1,590</span>
-                                    <span class="original-price">৳1,990</span>
+                                    <p class="product-title">{{ $product->name }}</p>
+                                    <span class="current-price">৳{{$final_price}}
+                                    <span class="original-price">৳{{ $product->sale_price }}</span>
                                 </div>
+                
                                 <div class="image-dots">
-                                    <span class="dot active" data-image="{{ asset('frontend/images/slide2.webp') }}"></span>
-                                    <span class="dot" data-image="{{ asset('frontend/images/kalindi.webp') }}"></span>
-                                    <span class="dot" data-image="{{ asset('frontend/images/kalindi2.webp') }}"></span>
+                                    @foreach($product->galleryImages as $image)
+                                    <span class="dot {{ $loop->first ? 'active' : '' }}" data-image="{{ asset('uploads/gallery/' . $image->image) }}"></span>
+                                    @endforeach
                                 </div>
                             </div>
-                        
-                            <!-- Image Dots -->
-                            
                         </div>
                     </div>
-
-                    <div class="col-lg-3 col-6">
-                        <div class="product-box">
-                            <!-- Product Badge -->
-                            <span class="product-badge">In Stock</span>
-                            
-                            <!-- Wishlist Icon -->
-                            <button class="wishlist-btn">
-                                <i class="far fa-heart"></i>
-                            </button>
-                        
-                            <!-- Quick View Button -->
-                            <button class="quickview-btn" onclick="openMenu()">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        
-                            <div class="product-image">
-                                <img src="{{ asset('frontend/images/slide2.webp') }}" alt="">
-                                <!-- Plus Button -->
-                                <button class="plus-btn">
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                            </div>
-                        
-                            <div class="product-info d-flex justify-content-around">
-                               
-                                <div class="product-price">
-                                    <p class="product-title">Cotton Printed Kameez</p>
-                                    <span class="current-price">৳1,590</span>
-                                    <span class="original-price">৳1,990</span>
-                                </div>
-                                <div class="image-dots">
-                                    <span class="dot active" data-image="{{ asset('frontend/images/slide2.webp') }}"></span>
-                                    <span class="dot" data-image="{{ asset('frontend/images/kalindi.webp') }}"></span>
-                                    <span class="dot" data-image="{{ asset('frontend/images/kalindi2.webp') }}"></span>
-                                </div>
-                            </div>
-                        
-                            <!-- Image Dots -->
-                           
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-6">
-                        <div class="product-box">
-                            <!-- Product Badge -->
-                            <span class="product-badge">In Stock</span>
-                            
-                            <!-- Wishlist Icon -->
-                            <button class="wishlist-btn">
-                                <i class="far fa-heart"></i>
-                            </button>
-                        
-                            <!-- Quick View Button -->
-                            <button class="quickview-btn">
-                                <i class="fas fa-eye" onclick="openMenu()"></i>
-                            </button>
-                        
-                            <div class="product-image">
-                                <img src="{{ asset('frontend/images/slide2.webp') }}" alt="">
-                                <!-- Plus Button -->
-                                <button class="plus-btn">
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                            </div>
-                        
-                            <div class="product-info">
-                               
-                                <div class="product-price d-flex justify-content-around">
-                                    <p class="product-title">Cotton Printed Kameez</p>
-                                    <span class="current-price">৳1,590</span>
-                                    <span class="original-price">৳1,990</span>
-                                </div>
-                                <div class="image-dots">
-                                    <span class="dot active" data-image="{{ asset('frontend/images/slide2.webp') }}"></span>
-                                    <span class="dot" data-image="{{ asset('frontend/images/kalindi.webp') }}"></span>
-                                    <span class="dot" data-image="{{ asset('frontend/images/kalindi2.webp') }}"></span>
-                                </div>
-                            </div>
-                        
-                            <!-- Image Dots -->
-                           
-                        </div>
-                    </div>
-
+                    @endforeach
                 </div>
             </div>
         </div>

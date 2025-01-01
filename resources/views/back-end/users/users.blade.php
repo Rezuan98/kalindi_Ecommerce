@@ -110,7 +110,7 @@ All Users
                                 <td>{{ $key + 1 }}</td>
                                 <td>
                                     <img src="{{ !empty($items->image) 
-                                        ? asset('storage/userimages/' . $items->image)
+                                        ? asset('storage/' . $items->image)
                                         : asset('frontend/images/defaultuser.png') }}"
                                         alt="Profile Picture"
                                         class="rounded-circle"

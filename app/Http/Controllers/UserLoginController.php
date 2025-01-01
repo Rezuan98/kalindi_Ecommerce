@@ -28,7 +28,7 @@ class UserLoginController extends Controller
 
 
 
-    public function store(Request $request)
+    public function storeRegister(Request $request)
     {       
         $request->validate([
             'name' => 'required|string|max:255',
@@ -42,7 +42,7 @@ class UserLoginController extends Controller
         // Handle image upload
         $imagePath = '';
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('profile-images', 'public');
+            $imagePath = $request->file('image')->store('userimages', 'public');
         }
 
         // Create user

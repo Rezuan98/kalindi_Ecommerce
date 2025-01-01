@@ -406,7 +406,14 @@ Product
 document.addEventListener('DOMContentLoaded', function() {
     const variantsContainer = document.getElementById('variants-container');
     const addVariantButton = document.getElementById('add-variant');
-
+// <div class="col-md-3">
+                //     <select name="sizes[]" class="form-select form-control">
+                //         <option value="">Select Size</option>
+                //         @foreach($size as $item)
+                //             <option value="{{ $item->id }}">{{ $item->name }}</option>
+                //         @endforeach
+                //     </select>
+                // </div>
     // Function to create new variant row
     function createVariantRow() {
         const newRow = document.createElement('div');
@@ -421,14 +428,14 @@ document.addEventListener('DOMContentLoaded', function() {
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-3">
-                    <select name="sizes[]" class="form-select form-control">
-                        <option value="">Select Size</option>
-                        @foreach($size as $item)
-                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+               <div class="col-md-3">
+                  <select name="sizes[]" class="form-select form-control">
+                         <option value="">Select Size</option>
+                         @foreach($size as $item)
+                             <option value="{{ $item->id }}">{{ $item->name }}</option>
                         @endforeach
-                    </select>
-                </div>
+                     </select>
+                 </div>
                 <div class="col-md-2">
                     <input type="number" name="stock_quantity[]" class="form-control" placeholder="Stock">
                 </div>

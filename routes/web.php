@@ -7,7 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserLoginController;
 use App\Http\Controllers\Frontend\ProductViewController;
 use App\Http\Controllers\Frontend\CartController;
-
+use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\Backend\HomeController;
 use App\Http\Controllers\Backend\SettingController;
 
@@ -15,22 +15,37 @@ use App\Http\Controllers\Backend\SettingController;
 
 Route::get('/',[IndexController::class,'index'])->name('home');
 
-Route::get('/product/details',[ProductViewController::class,'productDetails'])->name('product.details');
+Route::get('/product/details/{id}',[ProductViewController::class,'productDetails'])->name('product.details');
 
 Route::get('/category/products',[ProductViewController::class,'categoryProducts'])->name('category.products');
-Route::get('/cart/page',[CartController::class,'cartPage'])->name('cart.page');
 
 // routes for user profile related
 Route::get('/user/register', [UserLoginController::class, 'userRegister'])->name('user.register');
+Route::post('/store/register', [UserLoginController::class, 'storeRegister'])->name('store.register');
+
 Route::get('/user/login', [UserLoginController::class, 'userLogin'])->name('user.login');
 
 
 
 
 
+Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('cart.add');
+// Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.view');
+Route::get('/cart/page',[CartController::class,'viewCart'])->name('cart.page');
+
+Route::post('/cart/update', [CartController::class, 'updateCart'])->name('cart.update');
+Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
+// Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+// Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+// Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
+// Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
 
 
 
+Route::middleware(['auth'])->group(function() {
+    Route::post('/wishlist/toggle', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
+    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+});
 
 
 
@@ -190,6 +205,7 @@ Route::group(['prefix'=>"product",'as'=>'product.'],function(){
     Route::delete('/delete/gallery-image/{id}','ProductController@deleteGalleryImage')->name('delete.gallery-image');
 
     Route::post('/duplicate/{id}', 'ProductController@duplicateProduct')->name('duplicate');
+    Route::delete('/delete/variant/{id}','ProductController@deleteVariant')->name('delete.variant');
 });
 /* product */
 

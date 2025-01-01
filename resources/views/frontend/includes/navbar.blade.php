@@ -56,12 +56,17 @@
 
 
 
-
+                    @php
+                    use App\Models\Cart;
+                    @endphp
                     <a href="#" onclick="toggleSearch()" class="nav-icon d-none d-lg-block"><i class="fas fa-search"></i></a>
                     <a href="#" class="nav-icon d-none d-lg-block"><i class="fas fa-heart"></i></a>
-                    <a href="#" data-bs-toggle="offcanvas" data-bs-target="#cartMenu" aria-controls="cartMenu" class="nav-icon cart-icon">
+                    <a href="{{ route('cart.page') }}" class="nav-icon cart-icon">
                         <i class="fas fa-shopping-cart"></i>
-                        <span class="cart-count">0</span>
+                        <span class="cart-count">{{ auth()->check() ? 
+                            Cart::where('user_id', auth()->id())->sum('quantity') : 
+                            collect(session('cart', []))->sum('quantity') 
+                        }}</span>
                     </a>
                 </div>
             </div>

@@ -28,6 +28,13 @@ class User extends Authenticatable
 
     ];
 
+
+    public function wish()
+    {
+        return $this->belongsToMany(Product::class, 'wishlists', 'user_id', 'product_id')
+                    ->withTimestamps();
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

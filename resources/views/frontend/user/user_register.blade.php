@@ -11,7 +11,7 @@
                     <h4 class="text-center mb-0">Create Account</h4>
                 </div>
                 <div class="card-body p-4">
-                    <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('store.register') }}" enctype="multipart/form-data">
                         @csrf
 
                         <!-- Name -->

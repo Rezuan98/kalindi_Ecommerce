@@ -173,6 +173,7 @@ public function ViewDetails($id){
     
     public function update(Request $request, $id)
     { 
+       
         // Validate the request
         // $request->validate([
         //     'product_name' => 'required|max:255',
@@ -390,5 +391,26 @@ public function duplicateProduct($id)
     }
 }
 
-
+public function deleteVariant($id)
+{
+    try {
+        $variant = ProductVarient::findOrFail($id);
+        
+        // Add logging to debug
+        \Log::info('Found variant:', ['id' => $id, 'variant' => $variant]);
+        
+        $deleted = $variant->delete();
+        
+        // Check if deletion was successful
+        if ($deleted) {
+            return response()->json(['success' => true, 'message' => 'Variant deleted successfully']);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Failed to delete variant'], 500);
+        }
+        
+    } catch (\Exception $e) {
+        \Log::error('Error deleting variant: ' . $e->getMessage());
+        return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+    }
+}
 }
