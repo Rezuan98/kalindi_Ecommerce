@@ -25,16 +25,23 @@ Route::post('/store/register', [UserLoginController::class, 'storeRegister'])->n
 
 Route::get('/user/login', [UserLoginController::class, 'userLogin'])->name('user.login');
 
-
+Route::get('/test-cart/{id}', function($id) {
+    $cart = \App\Models\Cart::find($id);
+    dd([
+        'cart_exists' => $cart ? true : false,
+        'cart_data' => $cart
+    ]);
+});
 
 
 
 Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('cart.add');
 // Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.view');
 Route::get('/cart/page',[CartController::class,'viewCart'])->name('cart.page');
-
 Route::post('/cart/update', [CartController::class, 'updateCart'])->name('cart.update');
 Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
+
+
 // Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 // Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 // Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');

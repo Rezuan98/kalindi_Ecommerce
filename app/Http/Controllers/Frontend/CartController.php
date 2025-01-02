@@ -167,38 +167,86 @@ class CartController extends Controller
 
 
 
+    public function updateCart(Request $request)
+{
+    try {
+        if (Auth::check()) {
+            $cart = Cart::where([
+                'id' => $request->cart_id,
+                'user_id' => Auth::id()
+            ])->first();
 
-//     public function viewCart()
-// {
-//     if (Auth::check()) {
-//         // For authenticated users - get from database
-//         $cartItems = Cart::with(['product', 'variant'])
-//             ->where('user_id', Auth::id())
-//             ->get();
-//         $cartCount = $cartItems->sum('quantity');
-//     } else {
-//         // For guests - get from session
-//         $sessionCart = session('cart', []);
-//         $cartItems = collect($sessionCart)->map(function ($item, $key) {
-//             // Get product and variant details
-//             $product = Product::find($item['product_id']);
-//             $variant = ProductVariant::find($item['varient_id']);
+            if (!$cart) {
+                return response()->json(['success' => false, 'message' => 'Cart item not found']);
+            }
+
+            $cart->quantity = $request->quantity;
+            $cart->save();
+
+            $cartCount = Cart::where('user_id', Auth::id())->sum('quantity');
+        } else {
+            $sessionCart = session()->get('cart', []);
             
-//             return (object)[
-//                 'id' => $key,
-//                 'product' => $product,
-//                 'variant' => $variant,
-//                 'quantity' => $item['quantity'],
-//                 'price' => $item['price']
-//             ];
-//         });
-//         $cartCount = $cartItems->sum('quantity');
-//     }
-// dd($cartCount);
-//     return view('frontend.pages.cart', compact('cartItems', 'cartCount'));
-// }
+            if (!isset($sessionCart[$request->cart_id])) {
+                return response()->json(['success' => false, 'message' => 'Cart item not found']);
+            }
 
-    
+            $sessionCart[$request->cart_id]['quantity'] = $request->quantity;
+            session()->put('cart', $sessionCart);
+            
+            $cartCount = collect($sessionCart)->sum('quantity');
+        }
+
+        return response()->json([
+            'success' => true,
+            'cartCount' => $cartCount,
+            'itemTotal' => $request->quantity * (Auth::check() ? $cart->price : $sessionCart[$request->cart_id]['price'])
+        ]);
+
+    } catch (\Exception $e) {
+        return response()->json(['success' => false, 'message' => $e->getMessage()]);
+    }
+}
+
+public function removeFromCart(Request $request)
+{
+    try {
+        if (Auth::check()) {
+            $cart = Cart::where([
+                'id' => $request->cart_id,
+                'user_id' => Auth::id()
+            ])->first();
+
+            if ($cart) {
+                $cart->delete();
+                $cartCount = Cart::where('user_id', Auth::id())->sum('quantity');
+            } else {
+                return response()->json(['success' => false, 'message' => 'Cart item not found']);
+            }
+        } else {
+            $sessionCart = session()->get('cart', []);
+            if (isset($sessionCart[$request->cart_id])) {
+                unset($sessionCart[$request->cart_id]);
+                session()->put('cart', $sessionCart);
+                $cartCount = collect($sessionCart)->sum('quantity');
+            } else {
+                return response()->json(['success' => false, 'message' => 'Cart item not found']);
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Item removed successfully',
+            'cartCount' => $cartCount
+        ]);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Failed to remove item: ' . $e->getMessage()
+        ], 500);
+    }
+}
     
 
 

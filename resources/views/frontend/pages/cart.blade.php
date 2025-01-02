@@ -43,7 +43,8 @@
                                             onclick="updateQuantity('{{ $item->id }}', 'decrease')">-</button>
                                     <input type="number" class="form-control text-center quantity-input" 
                                            value="{{ $item->quantity }}" min="1" max="10" 
-                                           data-item-id="{{ $item->id }}">
+                                           data-item-id="{{ $item->id }}" readonly>
+
                                     <button class="btn btn-outline-secondary increase-qty" type="button"
                                             onclick="updateQuantity('{{ $item->id }}', 'increase')">+</button>
                                 </div>
@@ -74,7 +75,14 @@
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h4 class="card-title mb-4">Order Summary</h4>
-                    
+                    <!-- Delivery Location -->
+<div class="mb-4">
+    <h6 class="mb-2">Delivery Location</h6>
+    <select class="form-select" id="deliveryLocation" onchange="updateCartTotal()">
+        <option value="inside">Inside Dhaka (৳50)</option>
+        <option value="outside">Outside Dhaka (৳110)</option>
+    </select>
+</div>
                     <!-- Price Details -->
                     <div class="mb-4">
                         <div class="d-flex justify-content-between mb-2">
@@ -176,74 +184,135 @@
 <script>
 async function updateQuantity(itemId, action) {
     const input = document.querySelector(`input[data-item-id="${itemId}"]`);
-    const currentValue = parseInt(input.value);
-    let newValue = currentValue;
-
-    if (action === 'increase' && currentValue < 10) {
-        newValue = currentValue + 1;
-    } else if (action === 'decrease' && currentValue > 1) {
-        newValue = currentValue - 1;
+    let newValue = parseInt(input.value);
+    
+    if (action === 'increase' && newValue < 10) {
+        newValue++;
+    } else if (action === 'decrease' && newValue > 1) {
+        newValue--;
+    } else {
+        return;
     }
 
-    if (newValue !== currentValue) {
-        try {
-            const response = await fetch('/cart/update', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                },
-                body: JSON.stringify({
-                    item_id: itemId,
-                    quantity: newValue
-                })
-            });
+    const response = await fetch('/cart/update', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: JSON.stringify({
+            cart_id: itemId,
+            quantity: newValue
+        })
+    });
 
-            const data = await response.json();
-            
-            if (data.success) {
-                input.value = newValue;
-                updateCartTotal();
-                updateCartCounts(data.cartCount);
-            }
-        } catch (error) {
-            console.error('Error updating quantity:', error);
-        }
+    const data = await response.json();
+    
+    if (data.success) {
+        input.value = newValue;
+        const priceElement = input.closest('.cart-item').querySelector('.item-price');
+        priceElement.textContent = '৳' + data.itemTotal.toFixed(2);
+        document.querySelector('.cart-count').textContent = data.cartCount;
+        updateCartTotal();
     }
 }
 
 async function removeItem(itemId) {
-    if (confirm('Are you sure you want to remove this item?')) {
-        try {
-            const response = await fetch('/cart/remove', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                },
-                body: JSON.stringify({
-                    item_id: itemId
-                })
-            });
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+    
+    if (!csrfToken) {
+        console.error('CSRF token not found');
+        return;
+    }
 
-            const data = await response.json();
-            
-            if (data.success) {
-                const cartItem = document.querySelector(`input[data-item-id="${itemId}"]`).closest('.cart-item');
-                cartItem.style.opacity = '0';
-                setTimeout(() => {
-                    cartItem.remove();
-                    updateCartTotal();
-                    updateCartCounts(data.cartCount);
-                    checkEmptyCart();
-                }, 300);
-            }
-        } catch (error) {
-            console.error('Error removing item:', error);
+    if (!confirm('Are you sure you want to remove this item?')) {
+        return;
+    }
+
+    try {
+        const response = await fetch('/cart/remove', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken
+            },
+            body: JSON.stringify({
+                cart_id: itemId
+            })
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+            const cartItem = document.querySelector(`input[data-item-id="${itemId}"]`).closest('.cart-item');
+            cartItem.style.opacity = '0';
+            setTimeout(() => {
+                cartItem.remove();
+                updateCartTotal();
+                checkEmptyCart();
+            }, 300);
+
+            document.querySelectorAll('.cart-count').forEach(el => {
+                el.textContent = data.cartCount;
+            });
+        } else {
+            alert(data.message);
         }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Failed to remove item');
+    }
+}
+function updateCartTotal() {
+    const cartItems = document.querySelectorAll('.cart-item');
+    let subtotal = 0;
+    
+    cartItems.forEach(item => {
+        const price = parseFloat(item.querySelector('.item-price').textContent.replace('৳', '').replace(',', ''));
+        const quantity = parseInt(item.querySelector('.quantity-input').value);
+        subtotal += price * quantity;
+    });
+
+    alert(subtotal);
+    // Get delivery charge based on location
+    const deliveryLocation = document.getElementById('deliveryLocation').value;
+    const deliveryCharge = deliveryLocation === 'inside' ? 50 : 110;
+
+    // Calculate tax (10%)
+    const tax = subtotal * 0.10;
+
+    // Update all total elements
+    document.querySelector('.cart-subtotal').textContent = '৳' + numberFormat(subtotal);
+    document.querySelector('.cart-shipping').textContent = '৳' + numberFormat(deliveryCharge);
+    document.querySelector('.cart-tax').textContent = '৳' + numberFormat(tax);
+    document.querySelector('.cart-total').textContent = '৳' + numberFormat(subtotal + deliveryCharge + tax);
+}
+
+function checkEmptyCart() {
+    const cartItems = document.querySelectorAll('.cart-item');
+    const emptyMessage = document.querySelector('.empty-cart-message');
+    const cartContent = document.querySelector('.col-lg-8');
+    
+    if (cartItems.length === 0) {
+        cartContent.innerHTML = `
+            <div class="empty-cart-message text-center py-5">
+                <i class="fas fa-shopping-cart fa-3x mb-3 text-muted"></i>
+                <h3 class="text-muted">Your cart is empty</h3>
+                <p class="text-muted mb-4">Looks like you haven't added any items to your cart yet.</p>
+                <a href="{{ route('home') }}" class="btn btn-primary">Continue Shopping</a>
+            </div>
+        `;
     }
 }
 
-// Keep your existing JavaScript code for updateCartTotal, etc.
+function numberFormat(number) {
+    return number.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    updateCartTotal();
+});
 </script>
 @endpush
+
